@@ -121,3 +121,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'src/static')]
+
+
+# Google reCAPTCHA secret key
+# https://developers.google.com/recaptcha/docs/verify/
+
+GOOGLE_RECAPTCHA_SECRET_KEY = ''
+
+
+# Load local_settings
+
+# try:
+#     from .local_settings import *
+# except ImportError:
+#     pass
