@@ -1,0 +1,28 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin-bottom: 50px;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.table-responsive table {
+    min-width: 560px;
+}
+#back-to-top {
+    color: #17a2b8;
+    font-size: 3em;
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1;
+    display: none;
+}
+#back-to-top:hover {
+    color: #138496;
+}
