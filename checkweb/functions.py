@@ -1,0 +1,159 @@
+import re
+import requests
+from lxml import html
+# from django.conf import settings
+
+
+def reCaptcha(response):
+    """
+    Check reCaptcha
+    - Input: POST['g-recaptcha-response']
+    - Output: True if pass
+    """
+    # data = {
+    #     'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+    #     'response': response
+    # }
+    # verify = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+    # result = verify.json()
+    # return result['success']
+    print(response)
+    return True
+
+
+def getLinkImg(elm, urlDomain):
+    """
+    Get full link image
+    - Input: content.xpath(img), urlDomain
+    - Output: link image
+    """
+    if elm and elm[:2] not in {'ht', '//'}:
+        elm = urlDomain + "/" + elm.lstrip('/')
+    return elm
+
+
+def cleanElms(elms):
+    """
+    Clean elements
+    - Input: content.xpath(elems)
+    - Output: remove spaces
+    """
+    if elms:
+        for idx, _ in enumerate(elms):
+            elms[idx] = elms[idx].strip()
+        elms = list(filter(None, elms))
+    return elms
+
+
+def getlinkRobots(urlDomain):
+    """
+    Get link robots.txt
+    - Input: url domain
+    - Output: link robots.txt or false
+    """
+    try:
+        value = requests.get(urlDomain + '/robots.txt')
+    except BaseException:
+        print('robots.txt not found!')
+        return None
+    if value.status_code != 200 or 'plain' not in value.headers['Content-Type']:
+        return None
+    return urlDomain + '/robots.txt'
+
+
+def getlinkSitemap(urlDomain, robots):
+    """
+    Get link sitemap.xml
+    - Input: url domain, robots.txt
+    - Output: link sitemap.xml or false
+    """
+    try:
+        value = requests.get(urlDomain + '/sitemap.xml')
+    except BaseException:
+        print('sitemap.xml not found!')
+        return None
+    if robots:
+        txt = requests.get(robots).content.decode('utf-8')
+        txt = txt.replace('\n', '')
+        sitemap = re.findall(r'Sitemap:.*xml', txt)
+        if sitemap:
+            sitemap = sitemap[0].split('Sitemap: ')[1:]
+            return sitemap
+    if value.status_code != 200 or 'xml' not in value.headers['Content-Type']:
+        return None
+    sitemap = [urlDomain + '/sitemap.xml']
+    return sitemap
+
+
+def getlinkA(elms, urlDomain):
+    """
+    Get full link from a tag
+    - Input: list a, urlDomain
+    - Output: link a
+    """
+    elms = set(elms)
+    elms.difference_update('#', '/')
+    elms = list(elms)
+    for idx, elm in enumerate(elms):
+        if elm[:2] not in {'ht', '//'}:
+            elms[idx] = urlDomain + "/" + elm.lstrip('/')
+        if elm[:2] == '//':
+            elms[idx] = 'http:' + elm
+    return elms
+
+
+def parsing(url):
+    """
+    Parsing website from url
+    - Input: url
+    - Output: dict(value)
+    """
+    try:
+        page = requests.get(url)
+        content = html.fromstring(page.content.decode('utf-8'))
+    except BaseException:
+        print('Cannot get url!')
+        return False
+
+    value = dict()
+    domain = url.split('/')[2]
+    urlDomain = url.split('/')[0] + '//' + domain
+
+    elm = {
+        'title': '//title/text()',
+        'description': '//meta[@name="description"]/@content',
+        'favicon': '//link[contains(@rel, "icon")]/@href',
+        'robotsMeta': '//meta[@name="robots"]/@content',
+    }
+    elms = {
+        'h1Tags': '//h1//text()',
+        'h2Tags': '//h2//text()',
+        'aTags': '//a/@href',
+    }
+
+    for k, v in elm.items():
+        try:
+            value[k] = content.xpath(v)[0]
+        except BaseException:
+            value[k] = None
+            print(k, 'not found!')
+
+    for k, v in elms.items():
+        try:
+            value[k] = content.xpath(v)
+        except BaseException:
+            value[k] = None
+            print(k, 'not found!')
+
+    value['favicon'] = getLinkImg(value['favicon'], urlDomain)
+
+    value['h1Tags'] = cleanElms(value['h1Tags'])
+    value['h2Tags'] = cleanElms(value['h2Tags'])
+
+    value['robotsTxt'] = getlinkRobots(urlDomain)
+    value['sitemaps'] = getlinkSitemap(urlDomain, value['robotsTxt'])
+
+    value['aTags'] = getlinkA(value['aTags'], urlDomain)
+
+    print(value)
+    return value
