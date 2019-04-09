@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a href="{% url 'index' %}" class="navbar-brand">Đánh Giá Web</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navhead" aria-controls="navhead" aria-expanded="false" aria-label="Toggle navbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navhead">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item{% if '/' == request.path %} active{% endif %}"><a href="{% url 'index' %}" class="nav-link">Trang chủ</a></li>
+            <li class="nav-item{% if 'gioi-thieu' in request.path %} active{% endif %}"><a href="{% url 'about' %}" class="nav-link">Giới thiệu</a></li>
+            <li class="nav-item{% if 'lien-he' in request.path %} active{% endif %}"><a href="{% url 'contact' %}" class="nav-link">Liên hệ</a></li>
+            <li class="nav-item dropdown">
+                <a href="/" class="nav-link dropdown-toggle" id="navdropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Thủ thuật</a>
+                <div class="dropdown-menu" aria-labelledby="navdropdown">
+                    <a href="/" class="dropdown-item">Kỹ thuật SEO</a>
+                    <a href="/" class="dropdown-item">Tăng tốc độ tải trang</a>
+                    <a href="/" class="dropdown-item">Tối ưu hiển thị di động</a>
+                </div>
+            </li>
+            <li class="nav-item"><a href="/" class="nav-link disabled">Quảng cáo</a></li>
+        </ul>
+        <form action="/" method="get" class="form-inline my-2 my-lg-0">
+            <input type="search" name="" id="" class="form-control mr-sm-2" placeholder="Nhập vào url" aria-label="Search">
+            <button class="btn btn-info my-2 my-sm-0" type="submit">Tìm kiếm</button>
+        </form>
+    </div>
+</nav>

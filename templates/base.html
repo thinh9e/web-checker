@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %} | Đánh Giá Web</title>
+    <meta name="description" content="Trang phân tích đánh giá SEO cho website miễn phí">
+    <meta name="robots" content="index, follow, noodp, noydir">
+    <meta name="author" content="PT.9E">
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Custom -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .fa-heart{color:red}
+        .fa-angle-double-right{color:gray}
+        #loading{background:rgba(255,255,255,.5) url("{% static 'img/loading.svg' %}") center no-repeat;position:fixed;right:0px;top:0px;width:100%;height:100%;z-index:1}
+    </style>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    {% include 'tmpart/_navbar.html' %}
+    <!-- Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                {% block content %}{% endblock %}
+            </div>
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                {% include 'tmpart/_sidebar.html' %}
+            </div>
+        </div>
+    </div>
+    <!-- Loading -->
+    <div id="loading"></div>
+    <!-- Back to top -->
+    <i class="fas fa-chevron-circle-up" id="back-to-top"></i>
+    <!-- Footer -->
+    {% include 'tmpart/_footer.html' %}
+    <!-- Script -->
+    <script>
+    // Back to top
+    $(window).scroll(function () {
+        if ($(this).scrollTop() >= 50) {
+            $('#back-to-top').fadeIn(200);
+        } else {
+            $('#back-to-top').fadeOut(200);
+        }
+    });
+    $('#back-to-top').click(function () {
+        $('html').animate({ scrollTop: 0 }, 500);
+    });
+    // Loading
+    $(window).ready(function () {
+        $("#loading").fadeOut("slow");
+    });
+    </script>
+    {% block script %}{% endblock %}
+    <!-- Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+</body>
+</html>

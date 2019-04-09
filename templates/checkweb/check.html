@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Trang Phân Tích{% endblock %}
+{% block content %}
+<h1>Trang phân tích</h1>
+<hr>
+<div class="container-fluid mb-2">
+    <div class="row">
+        <div class="input-group col-md-10 px-0">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon">URL</span>
+            </div>
+            <input type="text" value="{{ url }}" class="form-control bg-white" aria-describedby="basic-addon" readonly>
+        </div>
+        <div id="score" class=""></div>
+    </div>
+</div>
+<div class="table-responsive container-fluid p-0">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" width="15%">Tiêu chí</th>
+                <th scope="col" width="15%" class="text-center">Kết quả</th>
+                <th scope="col" width="70%">Chi tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Title -->
+            <tr>
+                <th scope="row">Tiêu đề</th>
+                <td class="text-center">
+                    {% if title and title|length < 65 %}
+                    <i class="far fa-check-circle text-success"></i>
+                    {% else %}
+                    <i class="far fa-times-circle text-danger"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    <div>Độ dài tiêu đề trang của bạn là <b>{{ title|length }}</b> ký tự. Hầu hết các công cụ tìm kiếm sẽ cắt bớt tiêu đề trang thành 65 ký tự.</div>
+                    <small><i class="fas fa-angle-double-right"></i> {% if title %}{{ title }}{% else %}<em>None</em>{% endif %}</small>
+                </td>
+            </tr>
+            <!-- Description -->
+            <tr>
+                <th scope="row">Mô tả</th>
+                <td class="text-center">
+                    {% if description and description|length < 160 %}
+                    <i class="far fa-check-circle text-success"></i>
+                    {% else %}
+                    <i class="far fa-times-circle text-danger"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    <div>Độ dài mô tả trang của bạn là <b>{{ description|length }}</b> ký tự. Hầu hết các công cụ tìm kiếm sẽ cắt bớt mô tả trang thành 160 ký tự.</div>
+                    <small><i class="fas fa-angle-double-right"></i> {% if description %}{{ description }}{% else %}<em>None</em>{% endif %}</small>
+                </td>
+            </tr>
+            <!-- Favicon -->
+            <tr>
+                <th scope="row">Favicon</th>
+                <td class="text-center">
+                    {% if favicon %}
+                    <i class="far fa-check-circle text-success"></i>
+                    {% else %}
+                    <i class="far fa-times-circle text-danger"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    <div>{% if favicon %}Tìm thấy favicon trên trang của bạn.{% else %}Không tìm thấy favicon trên trang của bạn.{% endif %}</div>
+                    <small><i class="fas fa-angle-double-right"></i> <img src="{% if favicon %}{{ favicon }}{% else %}{% static 'img/no-favicon.ico' %}{% endif %}" alt="favicon" width="16px"></small>
+                </td>
+            </tr>
+            <!-- Robots Meta -->
+            <tr>
+                <th scope="row">Robots</th>
+                <td class="text-center">
+                    {% if robotsMeta %}
+                    <i class="far fa-check-circle text-success"></i>
+                    {% else %}
+                    <i class="far fa-times-circle text-danger"></i>
+                    {% endif %}
+                </td>
+                <td><small><i class="fas fa-angle-double-right"></i> {% if robotsMeta %}{{ robotsMeta }}{% else %}<em>None</em>{% endif %}</small></td>
+            </tr>
+            <!-- H1 tags -->
+            <tr>
+                <th scope="row">Thẻ h1</th>
+                <td class="text-center">
+                    {% if h1Tags %}
+                    <i class="far fa-check-circle text-success"></i>
+                    {% else %}
+                    <i class="far fa-times-circle text-danger"></i>
+                    {% endif %}
+                </td>
+                <td><small>{% if h1Tags %}{% for h1Tag in h1Tags %}<i class="fas fa-angle-double-right"></i> {{ h1Tag }}<br>{% endfor %}{% else %}<i class="fas fa-angle-double-right"></i> <em>None</em>{% endif %}</small></td>
+            </tr>
+            <!-- H2 tags -->
+            <tr>
+                <th scope="row">Thẻ h2</th>
+                <td class="text-center">
+                    {% if h2Tags %}
+                    <i class="far fa-check-circle text-success"></i>
+                    {% else %}
+                    <i class="far fa-times-circle text-danger"></i>
+                    {% endif %}
+                </td>
+                <td><small>{% if h2Tags %}{% for h2Tag in h2Tags %}<i class="fas fa-angle-double-right"></i> {{ h2Tag }}<br>{% endfor %}{% else %}<i class="fas fa-angle-double-right"></i> <em>None</em>{% endif %}</small></td>
+            </tr>
+            <!-- Robots.txt -->
+            <tr>
+                <th scope="row">Robots.txt</th>
+                <td class="text-center">
+                    {% if robotsTxt %}
+                    <i class="far fa-check-circle text-success"></i>
+                    {% else %}
+                    <i class="far fa-times-circle text-danger"></i>
+                    {% endif %}
+                </td>
+                <td><small><i class="fas fa-angle-double-right"></i> {% if robotsTxt %}{{ robotsTxt }}{% else %}<em>None</em>{% endif %}</small></td>
+            </tr>
+            <!-- Sitemaps -->
+            <tr>
+                <th scope="row">Sitemap</th>
+                <td class="text-center">
+                    {% if sitemaps %}
+                    <i class="far fa-check-circle text-success"></i>
+                    {% else %}
+                    <i class="far fa-times-circle text-danger"></i>
+                    {% endif %}
+                </td>
+                <td><small>{% if sitemaps %}{% for sitemap in sitemaps %}<i class="fas fa-angle-double-right"></i> {{ sitemap }}<br>{% endfor %}{% else %}<i class="fas fa-angle-double-right"></i> <em>None</em>{% endif %}</small></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<button type="button" class="btn btn-outline-danger mb-2" disabled>Cập nhật</button>
+<a href="{% url 'index' %}" class="btn btn-outline-info mb-2">Trở lại</a>
+{% endblock %}
+{% block script %}
+<script>
+var table = document.getElementsByTagName('table')[0];
+var total = table.getElementsByClassName('far');
+var success = table.getElementsByClassName('far fa-check-circle text-success');
+var score = Math.round(success.length / total.length * 100);
+document.getElementById('score').innerText = "Điểm: " + score;
+if(score >= 80){
+    document.getElementById('score').className = "col-md-2 btn btn-success";
+}
+else if(score >= 50){
+    document.getElementById('score').className = "col-md-2 btn btn-warning";
+}
+else{
+    document.getElementById('score').className = "col-md-2 btn btn-danger";
+}
+</script>
+{% endblock %}
