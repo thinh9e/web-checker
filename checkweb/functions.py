@@ -85,6 +85,23 @@ def getlinkSitemap(urlDomain, robots):
     return sitemap
 
 
+def checkBrokenLink(elms):
+    """
+    Check broken link
+    - Input: list all link
+    - Output: list broken link
+    """
+    res = list()
+    for elm in elms:
+        try:
+            value = requests.get(elm)
+        except BaseException:
+            pass
+        if value.status_code != 200:
+            res.append(elm)
+    return res
+
+
 def getlinkA(elms, urlDomain):
     """
     Get full link from a tag
