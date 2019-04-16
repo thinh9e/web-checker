@@ -1,6 +1,7 @@
 import re
 import requests
 from lxml import html
+from concurrent.futures import ThreadPoolExecutor
 # from django.conf import settings
 
 
@@ -85,21 +86,33 @@ def getlinkSitemap(urlDomain, robots):
     return sitemap
 
 
-def checkBrokenLink(elms):
+def checkBrokenLink(elm):
     """
     Check broken link
+    - Input: a link
+    - Output: elm if broken
+    """
+    try:
+        value = requests.get(elm, timeout=5)
+    except BaseException:
+        return elm
+    if value.status_code != 200:
+        return elm
+    return None
+
+
+def getBrokenLink(elms):
+    """
+    Get broken links
     - Input: list all link
     - Output: list broken link
     """
-    res = list()
-    for elm in elms:
-        try:
-            value = requests.get(elm)
-        except BaseException:
-            pass
-        if value.status_code != 200:
-            res.append(elm)
-    return res
+    lstTmp = list()
+    with ThreadPoolExecutor() as executor:
+        for elm in executor.map(checkBrokenLink, elms):
+            if elm:
+                lstTmp.append(elm)
+    return lstTmp
 
 
 def getlinkA(elms, urlDomain):
@@ -171,6 +184,7 @@ def parsing(url):
     value['sitemaps'] = getlinkSitemap(urlDomain, value['robotsTxt'])
 
     value['aTags'] = getlinkA(value['aTags'], urlDomain)
+    value['aBrokens'] = getBrokenLink(value['aTags'])
 
     print(value)
     return value
