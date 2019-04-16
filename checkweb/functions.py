@@ -1,7 +1,7 @@
+from concurrent.futures import ThreadPoolExecutor
 import re
 import requests
 from lxml import html
-from concurrent.futures import ThreadPoolExecutor
 # from django.conf import settings
 
 
