@@ -107,12 +107,12 @@ def getBrokenLink(elms):
     - Input: list all link
     - Output: list broken link
     """
-    lstTmp = list()
+    res = list()
     with ThreadPoolExecutor() as executor:
         for elm in executor.map(checkBrokenLink, elms):
             if elm:
-                lstTmp.append(elm)
-    return lstTmp
+                res.append(elm)
+    return res
 
 
 def getlinkA(elms, urlDomain):
