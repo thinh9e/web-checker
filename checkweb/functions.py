@@ -139,7 +139,7 @@ def parsing(url):
     - Output: dict(value)
     """
     try:
-        page = requests.get(url)
+        page = requests.get(url, timeout=5)
         content = html.fromstring(page.content.decode('utf-8'))
     except BaseException:
         print('Cannot get url!')
