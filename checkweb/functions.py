@@ -121,15 +121,18 @@ def getlinkA(elms, urlDomain):
     - Input: list a, urlDomain
     - Output: link a
     """
-    elms = set(elms)
-    elms.difference_update('#', '/')
-    elms = list(elms)
-    for idx, elm in enumerate(elms):
-        if elm[:2] not in {'ht', '//'}:
+    idx = 0
+    while idx < len(elms):
+        elm = elms[idx]
+        if elm in ('#', '/') or elm.split(':')[0] in ('tel', 'mailto', 'javascript'):
+            elms.pop(idx)
+            idx -= 1
+        elif elm[:2] not in ('ht', '//'):
             elms[idx] = urlDomain + "/" + elm.lstrip('/')
-        if elm[:2] == '//':
+        elif elm[:2] == '//':
             elms[idx] = 'http:' + elm
-    return elms
+        idx += 1
+    return set(elms)
 
 
 def parsing(url):
