@@ -201,7 +201,7 @@
                     <div>Tìm thấy <b>{{ aBrokens|length }}</b> trong số <b>{{ aTags|length }}</b> liên kết bị lỗi trên trang của bạn.</div>
                     <small>{% for aBroken in aBrokens %}<i class="fas fa-angle-double-right"></i> {{ aBroken }}<br>{% endfor %}</small>
                     {% else %}
-                    <div>Không tìm thấy lỗi liên kết trên trang của bạn.</div>
+                    <div>Không tìm thấy lỗi trong số <b>{{ aTags|length }}</b> liên kết trên trang của bạn.</div>
                     <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
                     {% endif %}
                 </td>
