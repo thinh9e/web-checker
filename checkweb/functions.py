@@ -135,6 +135,18 @@ def getlinkA(elms, urlDomain):
     return set(elms)
 
 
+def getCSSInlines(elms):
+    """
+    Get css inlines
+    - Input: list elements
+    - Output: list tags have css inline
+    """
+    for idx, value in enumerate(elms):
+        tmp = html.tostring(value, encoding='utf-8').decode('utf-8')
+        elms[idx] = re.search(r'<.*?>', tmp).group()
+    return elms
+
+
 def parsing(url):
     """
     Parsing website from url
@@ -162,6 +174,7 @@ def parsing(url):
         'h1Tags': '//h1//text()',
         'h2Tags': '//h2//text()',
         'aTags': '//a/@href',
+        'cssInlines': '//@style/..',
     }
 
     for k, v in elm.items():
@@ -188,6 +201,8 @@ def parsing(url):
 
     value['aTags'] = getlinkA(value['aTags'], urlDomain)
     value['aBrokens'] = getBrokenLink(value['aTags'])
+
+    value['cssInlines'] = getCSSInlines(value['cssInlines'])
 
     print(value)
     return value
