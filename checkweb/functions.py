@@ -147,6 +147,20 @@ def getCSSInlines(elms):
     return elms
 
 
+def checkMissAlts(elms):
+    """
+    Check alt attribute in img tag
+    - Input: list img tags
+    - Output: list img tags not have alt
+    """
+    res = list()
+    for elm in elms:
+        tmp = html.tostring(elm, encoding='utf-8').decode('utf-8')
+        if not re.search(r'alt=(\'|\").+(\'|\")', tmp):
+            res.append(re.search(r'<img.*?>', tmp).group())
+    return res
+
+
 def parsing(url):
     """
     Parsing website from url
@@ -175,6 +189,7 @@ def parsing(url):
         'h2Tags': '//h2//text()',
         'aTags': '//a/@href',
         'cssInlines': '//@style/..',
+        'imgTags': '//img',
     }
 
     for k, v in elm.items():
@@ -203,6 +218,7 @@ def parsing(url):
     value['aBrokens'] = getBrokenLink(value['aTags'])
 
     value['cssInlines'] = getCSSInlines(value['cssInlines'])
+    value['missAlts'] = checkMissAlts(value['imgTags'])
 
     print(value)
     return value
