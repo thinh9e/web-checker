@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="h-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,21 +13,25 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
     <style>
         .nav-item {
             margin: 0 .5rem;
         }
-        .nav-item:hover {
-            border-bottom: .5rem solid gray;
-            margin-bottom: -.5rem;
+        body {
+            background-color: #000000;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23052025' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%2309414a' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%230e616e' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%23128293' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%2317a2b8' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
+            background-size: cover;
+            font-family: Comfortaa;
         }
     </style>
 </head>
-<body class="bg-dark">
-    <div><a href='javascript:/* debug.css | MIT License | zaydek.github.com/debug.css */ if (!("is_debugging" in window)) { is_debugging = false; var debug_el = document.createElement("style"); debug_el.append(document.createTextNode(`*:not(path):not(g) { color: hsla(210, 100%, 100%, 0.9) !important; background: hsla(210, 100%,  50%, 0.5) !important; outline: solid 0.25rem hsla(210, 100%, 100%, 0.5) !important; box-shadow: none !important; filter: none !important; }`)); } function enable_debugger() { if (!is_debugging) { document.head.appendChild(debug_el); is_debugging = true; } } function disable_debugger() { if (is_debugging) { document.head.removeChild(debug_el); is_debugging = false; } } !is_debugging ? enable_debugger() : disable_debugger();'>Debug</a></div>
+<body class="d-flex flex-column h-100">
+    <!-- <div><a href='javascript:/* debug.css | MIT License | zaydek.github.com/debug.css */ if (!("is_debugging" in window)) { is_debugging = false; var debug_el = document.createElement("style"); debug_el.append(document.createTextNode(`*:not(path):not(g) { color: hsla(210, 100%, 100%, 0.9) !important; background: hsla(210, 100%,  50%, 0.5) !important; outline: solid 0.25rem hsla(210, 100%, 100%, 0.5) !important; box-shadow: none !important; filter: none !important; }`)); } function enable_debugger() { if (!is_debugging) { document.head.appendChild(debug_el); is_debugging = true; } } function disable_debugger() { if (is_debugging) { document.head.removeChild(debug_el); is_debugging = false; } } !is_debugging ? enable_debugger() : disable_debugger();'>Debug</a></div> -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark">
-            <a href="/" class="navbar-brand"><i class="fas fa-check-square"></i> Đánh Giá Web</a>
+            <a href="/" class="navbar-brand" style="font-size:2rem"><i class="fas fa-check-square text-success"></i> <strong>Đánh Giá Web</strong></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -57,13 +61,19 @@
             </div>
         </nav>
     </header>
-    <main role="main" class="container h-100">
-        <!-- <div class="row"> -->
+    <main role="main" class="flex-shrink-0">
+        <div class="container">
             <section>
-                <h1 class="text-center mt-5 py-3 bg-info text-light">Chúng tôi</h1>
+                <h1 class="text-center text-light" style="font-size:4rem;margin-top:5rem">\>_ cách <b class="text-danger">tôi</b> hoạt động</h1>
+                <h2 class="text-center text-warning" style="font-size:2rem">Nhanh chóng * Chính xác * Miễn phí</h2>
             </section>
-        <!-- </div> -->
+        </div>
     </main>
+    <footer class="footer mt-auto py-3">
+        <div class="container-fluid">
+            <div class="text-right text-dark"><strong class="badge badge-dark text-wrap">PT.9E</strong> &copy; 2019 | Xây dựng và phát triển bằng <span class="text-danger">&hearts;</span> với <a href="https://www.djangoproject.com/" class="text-light" target="_blank">Django</a></div>
+        </div>
+    </footer>
     <!-- Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
