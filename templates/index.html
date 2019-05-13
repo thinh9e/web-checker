@@ -28,7 +28,6 @@
     </style>
 </head>
 <body class="d-flex flex-column h-100">
-    <!-- <div><a href='javascript:/* debug.css | MIT License | zaydek.github.com/debug.css */ if (!("is_debugging" in window)) { is_debugging = false; var debug_el = document.createElement("style"); debug_el.append(document.createTextNode(`*:not(path):not(g) { color: hsla(210, 100%, 100%, 0.9) !important; background: hsla(210, 100%,  50%, 0.5) !important; outline: solid 0.25rem hsla(210, 100%, 100%, 0.5) !important; box-shadow: none !important; filter: none !important; }`)); } function enable_debugger() { if (!is_debugging) { document.head.appendChild(debug_el); is_debugging = true; } } function disable_debugger() { if (is_debugging) { document.head.removeChild(debug_el); is_debugging = false; } } !is_debugging ? enable_debugger() : disable_debugger();'>Debug</a></div> -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a href="/" class="navbar-brand" style="font-size:2rem"><i class="fas fa-check-square text-success"></i> <strong>Đánh Giá Web</strong></a>
@@ -37,7 +36,7 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item active"><a href="/" class="nav-link">Trang chủ</a></li>
+                    <li class="nav-item active ml-0"><a href="/" class="nav-link">Trang chủ</a></li>
                     <li class="nav-item"><a href="/" class="nav-link">Giới thiệu</a></li>
                     <li class="nav-item"><a href="/" class="nav-link">Liên hệ</a></li>
                     <li class="nav-item dropdown">
@@ -56,7 +55,10 @@
                         </div>
                     </li>
                     <li class="nav-item"><a href="/" class="nav-link disabled">Quảng cáo</a></li>
-                    <li class="nav-item"><a href="https://github.com/pythinh/check-seo" class="btn btn-info" target="target="_blank""><i class="fab fa-github"></i> Github</a></li>
+                    <li class="nav-item mr-0"><a href="https://github.com/pythinh/check-seo" class="btn btn-info" target="_blank"><i class="fab fa-github"></i> Github</a></li>
+                    <li class="nav-item">
+                        <a href='javascript:/* debug.css | MIT License | zaydek.github.com/debug.css */ if (!("is_debugging" in window)) { is_debugging = false; var debug_el = document.createElement("style"); debug_el.append(document.createTextNode(`*:not(path):not(g) { color: hsla(210, 100%, 100%, 0.9) !important; background: hsla(210, 100%,  50%, 0.5) !important; outline: solid 0.25rem hsla(210, 100%, 100%, 0.5) !important; box-shadow: none !important; filter: none !important; }`)); } function enable_debugger() { if (!is_debugging) { document.head.appendChild(debug_el); is_debugging = true; } } function disable_debugger() { if (is_debugging) { document.head.removeChild(debug_el); is_debugging = false; } } !is_debugging ? enable_debugger() : disable_debugger();' class="nav-link">Debug</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -65,7 +67,13 @@
         <div class="container">
             <section>
                 <h1 class="text-center text-light" style="font-size:4rem;margin-top:5rem">\>_ cách <b class="text-danger">tôi</b> hoạt động</h1>
-                <h2 class="text-center text-warning" style="font-size:2rem">Nhanh chóng * Chính xác * Miễn phí</h2>
+                <h2 class="text-center text-warning" style="font-size:2rem">Nhanh chóng &bull; Chính xác &bull; Miễn phí</h2>
+            </section>
+            <section class="mt-5">
+                <form action="" class="form-group text-center" method="post">
+                    <input type="url" class="form-control col-4" value="" name="url" id="url" placeholder="Nhập vào URL (có http://)" style="display:inline" required>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-search"></i></button>
+                </form>
             </section>
         </div>
     </main>

@@ -1,4 +1,4 @@
-html {
+/* html {
     position: relative;
     min-height: 100%;
 }
@@ -12,8 +12,8 @@ body {
 }
 .table-responsive table {
     min-width: 560px;
-}
-#back-to-top {
+} */
+/* #backTop {
     color: #17a2b8;
     font-size: 3em;
     cursor: pointer;
@@ -23,6 +23,6 @@ body {
     z-index: 1;
     display: none;
 }
-#back-to-top:hover {
+#backTop:hover {
     color: #138496;
-}
+} */

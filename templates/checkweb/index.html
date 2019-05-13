@@ -1,18 +1,34 @@
 {% extends 'base.html' %}
-
 {% block title %}Trang Chủ{% endblock %}
+{% block script %}
+<script>
+var sm = document.getElementById("submit");
+sm.onclick = validate;
+function validate(event) {
+    event.preventDefault();
+    grecaptcha.execute();
+}
+function onSubmit(token) {
+    sm.onclick = null;
+    sm.click();
+}
+</script>
+{% endblock %}
 {% block content %}
-<h1>Trang chủ</h1>
-<hr>
-<form action="{% url 'check' %}" method="post" class="my-2">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="url">Kiểm tra địa chỉ:</label>
-        <input type="url" class="form-control{% if errURL %} border-danger{% endif %}" value="{{ url }}" name="url" id="url" placeholder="Nhập vào URL (có http://)" required>
-        {% if errURL %}<p><small class="text-danger"><em>* Không phân tích được URL. Vui lòng kiểm tra lại!</em></small></p>{% endif %}
+<section>
+    <div class="text-center">
+        <div class="text-center display-3 mt-5">\><span id="dash">_</span> cách <b class="text-danger">tôi</b> hoạt động</div>
+        <h2 class="text-center display-5 text-warning">nhanh chóng &bull; chính xác &bull; miễn phí</h2>
     </div>
-    <div class="g-recaptcha mb-3" data-sitekey="6LeZNYAUAAAAAKHppgQrLFBB6sPjINgxfpSmlYFb"></div>
-    {% if errCC %}<p><small class="text-danger"><em>* Bạn chưa được kiểm tra không phải là robot!</em></small></p>{% endif %}
-    <button type="submit" class="btn btn-outline-info">Kiểm tra</button>
-</form>
+</section>
+<section class="mt-5">
+    <form action="{% url 'check' %}" method="post" class="form-group text-center" id="form">
+        {% csrf_token %}
+        <input type="url" class="form-control{% if errURL %} border-danger{% endif %} form-control-lg d-inline-flex col-md-4 col-6" name="url" value="{{ url }}" id="url" placeholder="Nhập vào URL (có http://)" required>
+        <button class="btn btn-lg btn-success" id="submit"><i class="fas fa-search"></i></button>
+        <div class="g-recaptcha" data-sitekey="6LdqE54UAAAAAHjNk5PWKIIWZTHfsEIhbxgzkuEq" data-callback="onSubmit" data-badge="bottomleft" data-size="invisible"></div>
+        {% if errURL %}<small class="text-danger"><em>* Không phân tích được URL. Vui lòng kiểm tra lại!</em></small>{% endif %}
+        {% if errCC %}<small class="text-danger"><em>* Bạn chưa được kiểm tra không phải là robot!</em></small>{% endif %}
+    </form>
+</section>
 {% endblock %}
