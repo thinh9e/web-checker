@@ -5,20 +5,23 @@ from lxml import html
 # from django.conf import settings
 
 
-def reCaptcha(response):
+def reCaptcha(response, userIP):
     """
     Check reCaptcha
-    - Input: POST['g-recaptcha-response']
+    - Input: POST['g-recaptcha-response'], META['HTTP_X_FORWARDED_FOR']
     - Output: True if pass
     """
     # data = {
     #     'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-    #     'response': response
+    #     'response': response,
+    #     'remoteip': userIP
     # }
-    # verify = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+    # verify = requests.post(
+    #     'https://www.google.com/recaptcha/api/siteverify', data=data)
     # result = verify.json()
+    # print(result)
     # return result['success']
-    print(response)
+    print(response, userIP)
     return True
 
 

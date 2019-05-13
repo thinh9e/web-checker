@@ -22,7 +22,7 @@ class CheckView(TemplateView):
     def post(self, request):
         url = request.POST['url']
         # reCaptcha
-        if reCaptcha(request.POST['g-recaptcha-response']):
+        if reCaptcha(request.POST['g-recaptcha-response'], request.META['REMOTE_ADDR']):
             # Parsing
             context = parsing(url)
             if context:
