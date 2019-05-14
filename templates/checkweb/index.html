@@ -1,34 +1,29 @@
 {% extends 'base.html' %}
-{% block title %}Trang Chủ{% endblock %}
 {% block script %}
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <script>
-var sm = document.getElementById("submit");
-sm.onclick = validate;
-function validate(event) {
-    event.preventDefault();
-    grecaptcha.execute();
-}
-function onSubmit(token) {
-    sm.onclick = null;
-    sm.click();
-}
+var sm=document.getElementById("submit");sm.onclick=validate;function validate(event){event.preventDefault();grecaptcha.execute()};function onSubmit(token){sm.onclick=null;sm.click()}
 </script>
 {% endblock %}
 {% block content %}
-<section>
-    <div class="text-center">
-        <div class="text-center display-3 mt-5">\><span id="dash">_</span> cách <b class="text-danger">tôi</b> hoạt động</div>
-        <h2 class="text-center display-5 text-warning">nhanh chóng &bull; chính xác &bull; miễn phí</h2>
+<div class="row h-100">
+    <div class="col-12 my-auto">
+        <section class="text-center">
+            <h1 class="display-3 font-weight-bold">Phân tích & Đánh giá SEO<br>cho website của bạn</h1>
+            <h3 class="display-5 text-warning">Nhanh chóng, Chính xác, Miễn phí</h3>
+        </section>
+        <section class="mt-5">
+            <form action="{% url 'check' %}" method="post" class="form-group text-center" id="form">
+                {% csrf_token %}
+                <input type="url" class="form-control{% if errURL %} border-danger{% endif %} form-control-lg d-inline-flex col-9 col-md-4" name="url" value="{{ url }}" id="url" placeholder="Nhập vào URL (có http://)" required>
+                <button class="btn btn-lg btn-danger" id="submit"><i class="fas fa-search"></i></button>
+                <div class="g-recaptcha" data-sitekey="6LdqE54UAAAAAHjNk5PWKIIWZTHfsEIhbxgzkuEq" data-callback="onSubmit" data-badge="bottomleft" data-size="invisible"></div>
+                <div class="font-italic text-danger mt-2">
+                    {% if errURL %}* Không phân tích được URL. Vui lòng kiểm tra lại!{% endif %}
+                    {% if errCC %}* Bạn chưa được kiểm tra không phải là robot!{% endif %}
+                </div>
+            </form>
+        </section>
     </div>
-</section>
-<section class="mt-5">
-    <form action="{% url 'check' %}" method="post" class="form-group text-center" id="form">
-        {% csrf_token %}
-        <input type="url" class="form-control{% if errURL %} border-danger{% endif %} form-control-lg d-inline-flex col-md-4 col-6" name="url" value="{{ url }}" id="url" placeholder="Nhập vào URL (có http://)" required>
-        <button class="btn btn-lg btn-success" id="submit"><i class="fas fa-search"></i></button>
-        <div class="g-recaptcha" data-sitekey="6LdqE54UAAAAAHjNk5PWKIIWZTHfsEIhbxgzkuEq" data-callback="onSubmit" data-badge="bottomleft" data-size="invisible"></div>
-        {% if errURL %}<small class="text-danger"><em>* Không phân tích được URL. Vui lòng kiểm tra lại!</em></small>{% endif %}
-        {% if errCC %}<small class="text-danger"><em>* Bạn chưa được kiểm tra không phải là robot!</em></small>{% endif %}
-    </form>
-</section>
+</div>
 {% endblock %}
