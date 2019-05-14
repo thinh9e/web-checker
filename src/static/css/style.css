@@ -1,18 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa|Roboto');
 body {
-    /* background: #000000 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23052025' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%2309414a' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%230e616e' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%23128293' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%2317a2b8' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E") fixed;
-    background-size: cover; */
     background: #185a9d linear-gradient(to bottom right, #185a9d, #43cea2) fixed;
     font-family: 'Comfortaa', sans-serif;
 }
 main {
     min-height: 80%;
 }
-.navbar-brand {
-    font-size: 2rem;
-}
-.nav-item {
-    margin: 0 .5rem;
+table {
+    min-width: 50rem;
 }
 #backTop {
     bottom: 3rem;
@@ -25,25 +20,21 @@ main {
     z-index: 1;
 }
 #backTop:hover {
-    color: #111111;
+    color: #111;
 }
-#copyright {
-    font-family: Roboto;
+.nav-item {
+    margin: 0 .5rem;
 }
-#dash {
-    animation: dashA .5s linear 1s infinite alternate;
-}
-@keyframes dashA {
-    0% {opacity: .8}
-    100% {opacity: 0}
-}
-#url {
-    border-radius: 50rem 0 0 50rem;
-    padding: 1.75rem;
+.navbar-brand {
+    font-size: 2rem;
 }
 #submit {
     border-radius: 0 50rem 50rem 0;
     margin-left: -.3rem;
     margin-top: -.25rem;
     padding: .75rem 1rem;
+}
+#url {
+    border-radius: 50rem 0 0 50rem;
+    padding: 1.75rem;
 }

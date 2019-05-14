@@ -1,253 +1,250 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}Trang Phân Tích{% endblock %}
 {% block content %}
-<h1>Trang phân tích</h1>
-<hr>
-<div class="container-fluid mb-2">
-    <div class="row">
-        <div class="input-group col-md-10 px-0">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon">URL</span>
-            </div>
-            <input type="text" value="{{ url }}" class="form-control bg-white" aria-describedby="basic-addon" readonly>
+<div class="container mt-5">
+    <h1 class="text-warning text-center font-weight-bold">Phân tích & Đánh giá</h1>
+    <hr>
+    <section class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="urlGr">URL</span>
         </div>
+        <input type="text" value="{{ url }}" class="form-control bg-white" aria-describedby="urlGr" readonly>
         <div id="score" class=""></div>
-    </div>
-</div>
-<div class="table-responsive container-fluid p-0">
-    <table class="table table-bordered">
-        <thead class="thead-light">
-            <tr>
-                <th scope="col" width="15%">Tiêu chí</th>
-                <th scope="col" width="15%" class="text-center">Kết quả</th>
-                <th scope="col" width="70%">Chi tiết</th>
-            </tr>
-        </thead>
-        <tbody class="text-light">
-            <!-- Title -->
-            <tr>
-                <th scope="row">Tiêu đề</th>
-                <td class="text-center">
-                    {% if title and title|length < 65 %}
-                    <i class="far fa-check-circle text-success"></i>
-                    {% else %}
-                    <i class="far fa-times-circle text-danger"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if title %}
-                    <div>Độ dài tiêu đề trang của bạn là <b>{{ title|length }}</b> ký tự. Hầu hết các công cụ tìm kiếm sẽ cắt bớt tiêu đề trang thành 65 ký tự.</div>
-                    <small><i class="fas fa-angle-double-right"></i> {{ title }}</small>
-                    {% else %}
-                    <div>Không tìm thấy tiêu đề trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
-                    {% endif %}
-                </td>
-            </tr>
-            <!-- Description -->
-            <tr>
-                <th scope="row">Mô tả</th>
-                <td class="text-center">
-                    {% if description and description|length < 160 %}
-                    <i class="far fa-check-circle text-success"></i>
-                    {% else %}
-                    <i class="far fa-times-circle text-danger"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if description %}
-                    <div>Độ dài mô tả trang của bạn là <b>{{ description|length }}</b> ký tự. Hầu hết các công cụ tìm kiếm sẽ cắt bớt mô tả trang thành 160 ký tự.</div>
-                    <small><i class="fas fa-angle-double-right"></i> {{ description }}</small>
-                    {% else %}
-                    <div>Không tìm thấy mô tả trên trang của bạn</div>
-                    <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
-                    {% endif %}
-                </td>
-            </tr>
-            <!-- Favicon -->
-            <tr>
-                <th scope="row">Favicon</th>
-                <td class="text-center">
-                    {% if favicon %}
-                    <i class="far fa-check-circle text-success"></i>
-                    {% else %}
-                    <i class="far fa-times-circle text-danger"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if favicon %}
-                    <div>Tìm thấy hình favicon trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> <img src="{{ favicon }}" alt="favicon" width="16px"></small>
-                    {% else %}
-                    <div>Không tìm thấy hình favicon trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> <img src="{% static 'img/no-favicon.ico' %}" alt="nofavicon" width="16px"></small>
-                    {% endif %}
-                </td>
-            </tr>
-            <!-- Robots Meta -->
-            <tr>
-                <th scope="row">Robots</th>
-                <td class="text-center">
-                    {% if robotsMeta %}
-                    <i class="far fa-check-circle text-success"></i>
-                    {% else %}
-                    <i class="far fa-times-circle text-danger"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if robotsMeta %}
-                    <div>Tìm thấy thuộc tính robots trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> {{ robotsMeta }}</small>
-                    {% else %}
-                    <div>Không tìm thấy thuộc tính robots trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
-                    {% endif %}
-                </td>
-            </tr>
-            <!-- H1 tags -->
-            <tr>
-                <th scope="row">Thẻ h1</th>
-                <td class="text-center">
-                    {% if h1Tags %}
-                    <i class="far fa-check-circle text-success"></i>
-                    {% else %}
-                    <i class="far fa-times-circle text-danger"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if h1Tags %}
-                    <div>Tìm thấy <b>{{ h1Tags|length }}</b> thẻ h1 trên trang của bạn.</div>
-                    <small>{% for h1Tag in h1Tags %}<i class="fas fa-angle-double-right"></i> {{ h1Tag }}<br>{% endfor %}</small>
-                    {% else %}
-                    <div>Không tìm thấy thẻ h1 trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
-                    {% endif %}
-                </td>
-            </tr>
-            <!-- H2 tags -->
-            <tr>
-                <th scope="row">Thẻ h2</th>
-                <td class="text-center">
-                    {% if h2Tags %}
-                    <i class="far fa-check-circle text-success"></i>
-                    {% else %}
-                    <i class="far fa-times-circle text-danger"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if h2Tags %}
-                    <div>Tìm thấy <b>{{ h2Tags|length }}</b> thẻ h2 trên trang của bạn.</div>
-                    <small>{% for h2Tag in h2Tags %}<i class="fas fa-angle-double-right"></i> {{ h2Tag }}<br>{% endfor %}</small>
-                    {% else %}
-                    <div>Không tìm thấy thẻ h2 trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
-                    {% endif %}
-                </td>
-            </tr>
-            <!-- Robots.txt -->
-            <tr>
-                <th scope="row">Robots.txt</th>
-                <td class="text-center">
-                    {% if robotsTxt %}
-                    <i class="far fa-check-circle text-success"></i>
-                    {% else %}
-                    <i class="far fa-times-circle text-danger"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if robotsTxt %}
-                    <div>Tìm thấy liên kết robots.txt trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> {{ robotsTxt }}</small>
-                    {% else %}
-                    <div>Không tìm thấy liên kết robots.txt trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
-                    {% endif %}
-                </td>
-            </tr>
-            <!-- Sitemaps -->
-            <tr>
-                <th scope="row">Sitemap</th>
-                <td class="text-center">
-                    {% if sitemaps %}
-                    <i class="far fa-check-circle text-success"></i>
-                    {% else %}
-                    <i class="far fa-times-circle text-danger"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if sitemaps %}
-                    <div>Tìm thấy <b>{{ sitemaps|length }}</b> liên kết sitemap.xml trên trang của bạn.</div>
-                    <small>{% for sitemap in sitemaps %}<i class="fas fa-angle-double-right"></i> {{ sitemap }}<br>{% endfor %}</small>
-                    {% else %}
-                    <div>Không tìm thấy liên kết sitemap.xml trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
-                    {% endif %}
-                </td>
-            </tr>
-            <!-- Broken links -->
-            <tr>
-                <th scope="row">Lỗi liên kết</th>
-                <td class="text-center">
-                    {% if aBrokens|length == 0 %}
-                    <i class="far fa-check-circle text-success"></i>
-                    {% else %}
-                    <i class="far fa-times-circle text-danger"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if aBrokens|length > 0 %}
-                    <div>Tìm thấy <b>{{ aBrokens|length }}</b> trong số <b>{{ aTags|length }}</b> liên kết bị lỗi trên trang của bạn.</div>
-                    <small>{% for aBroken in aBrokens %}<i class="fas fa-angle-double-right"></i> {{ aBroken }}<br>{% endfor %}</small>
-                    {% else %}
-                    <div>Không tìm thấy lỗi trong số <b>{{ aTags|length }}</b> liên kết trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
-                    {% endif %}
-                </td>
-            </tr>
-            <!-- CSS inlines -->
-            <tr>
-                <th scope="row">CSS nội tuyến</th>
-                <td class="text-center">
-                    {% if cssInlines|length == 0 %}
-                    <i class="far fa-check-circle text-success"></i>
-                    {% else %}
-                    <i class="far fa-times-circle text-danger"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if cssInlines|length > 0 %}
-                    <div>Tìm thấy <b>{{ cssInlines|length }}</b> thuộc tính css nội tuyến trên trang của bạn.</div>
-                    <small>{% for cssInline in cssInlines %}<i class="fas fa-angle-double-right"></i> {{ cssInline }}<br>{% endfor %}</small>
-                    {% else %}
-                    <div>Không tìm thấy thuộc tính css nội tuyến trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
-                    {% endif %}
-                </td>
-            </tr>
-            <!-- Alt attribute -->
-            <tr>
-                <th scope="row">Thuộc tính alt</th>
-                <td class="text-center">
-                    {% if missAlts|length == 0 %}
-                    <i class="far fa-check-circle text-success"></i>
-                    {% else %}
-                    <i class="far fa-times-circle text-danger"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if missAlts|length > 0 %}
-                    <div>Tìm thấy <b>{{ missAlts|length }}</b> trong số <b>{{ imgTags|length }}</b> thẻ img bị thiếu thuộc tính alt trên trang của bạn.</div>
-                    <small>{% for missAlt in missAlts %}<i class="fas fa-angle-double-right"></i> {{ missAlt }}<br>{% endfor %}</small>
-                    {% else %}
-                    <div>Không tìm thấy lỗi trong số <b>{{ imgTags|length }}</b> thẻ img trên trang của bạn.</div>
-                    <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
-                    {% endif %}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    </section>
+    <section class="table-responsive">
+        <table class="table table-bordered" id="tbCheck">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" width="15%">Tiêu chí</th>
+                    <th scope="col" width="15%" class="text-center">Kết quả</th>
+                    <th scope="col" width="70%">Chi tiết</th>
+                </tr>
+            </thead>
+            <tbody class="text-light">
+                <!-- Title -->
+                <tr>
+                    <th scope="row">Tiêu đề</th>
+                    <td class="text-center">
+                        {% if title and title|length < 65 %}
+                        <i class="far fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="far fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if title %}
+                        <div>Độ dài tiêu đề trang của bạn là <b>{{ title|length }}</b> ký tự. Hầu hết các công cụ tìm kiếm sẽ cắt bớt tiêu đề trang thành 65 ký tự.</div>
+                        <small><i class="fas fa-angle-double-right"></i> {{ title }}</small>
+                        {% else %}
+                        <div>Không tìm thấy tiêu đề trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- Description -->
+                <tr>
+                    <th scope="row">Mô tả</th>
+                    <td class="text-center">
+                        {% if description and description|length < 160 %}
+                        <i class="far fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="far fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if description %}
+                        <div>Độ dài mô tả trang của bạn là <b>{{ description|length }}</b> ký tự. Hầu hết các công cụ tìm kiếm sẽ cắt bớt mô tả trang thành 160 ký tự.</div>
+                        <small><i class="fas fa-angle-double-right"></i> {{ description }}</small>
+                        {% else %}
+                        <div>Không tìm thấy mô tả trên trang của bạn</div>
+                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- Favicon -->
+                <tr>
+                    <th scope="row">Favicon</th>
+                    <td class="text-center">
+                        {% if favicon %}
+                        <i class="far fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="far fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if favicon %}
+                        <div>Tìm thấy hình favicon trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> <img src="{{ favicon }}" alt="favicon" width="16px"></small>
+                        {% else %}
+                        <div>Không tìm thấy hình favicon trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> <img src="{% static 'img/no-favicon.ico' %}" alt="nofavicon" width="16px"></small>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- Robots Meta -->
+                <tr>
+                    <th scope="row">Robots</th>
+                    <td class="text-center">
+                        {% if robotsMeta %}
+                        <i class="far fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="far fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if robotsMeta %}
+                        <div>Tìm thấy thuộc tính robots trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> {{ robotsMeta }}</small>
+                        {% else %}
+                        <div>Không tìm thấy thuộc tính robots trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- H1 tags -->
+                <tr>
+                    <th scope="row">Thẻ h1</th>
+                    <td class="text-center">
+                        {% if h1Tags %}
+                        <i class="far fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="far fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if h1Tags %}
+                        <div>Tìm thấy <b>{{ h1Tags|length }}</b> thẻ h1 trên trang của bạn.</div>
+                        <small>{% for h1Tag in h1Tags %}<i class="fas fa-angle-double-right"></i> {{ h1Tag }}<br>{% endfor %}</small>
+                        {% else %}
+                        <div>Không tìm thấy thẻ h1 trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- H2 tags -->
+                <tr>
+                    <th scope="row">Thẻ h2</th>
+                    <td class="text-center">
+                        {% if h2Tags %}
+                        <i class="far fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="far fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if h2Tags %}
+                        <div>Tìm thấy <b>{{ h2Tags|length }}</b> thẻ h2 trên trang của bạn.</div>
+                        <small>{% for h2Tag in h2Tags %}<i class="fas fa-angle-double-right"></i> {{ h2Tag }}<br>{% endfor %}</small>
+                        {% else %}
+                        <div>Không tìm thấy thẻ h2 trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- Robots.txt -->
+                <tr>
+                    <th scope="row">Robots.txt</th>
+                    <td class="text-center">
+                        {% if robotsTxt %}
+                        <i class="far fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="far fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if robotsTxt %}
+                        <div>Tìm thấy liên kết robots.txt trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> {{ robotsTxt }}</small>
+                        {% else %}
+                        <div>Không tìm thấy liên kết robots.txt trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- Sitemaps -->
+                <tr>
+                    <th scope="row">Sitemap</th>
+                    <td class="text-center">
+                        {% if sitemaps %}
+                        <i class="far fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="far fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if sitemaps %}
+                        <div>Tìm thấy <b>{{ sitemaps|length }}</b> liên kết sitemap.xml trên trang của bạn.</div>
+                        <small>{% for sitemap in sitemaps %}<i class="fas fa-angle-double-right"></i> {{ sitemap }}<br>{% endfor %}</small>
+                        {% else %}
+                        <div>Không tìm thấy liên kết sitemap.xml trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- Broken links -->
+                <tr>
+                    <th scope="row">Lỗi liên kết</th>
+                    <td class="text-center">
+                        {% if aBrokens|length == 0 %}
+                        <i class="far fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="far fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if aBrokens|length > 0 %}
+                        <div>Tìm thấy <b>{{ aBrokens|length }}</b> trong số <b>{{ aTags|length }}</b> liên kết bị lỗi trên trang của bạn.</div>
+                        <small>{% for aBroken in aBrokens %}<i class="fas fa-angle-double-right"></i> {{ aBroken }}<br>{% endfor %}</small>
+                        {% else %}
+                        <div>Không tìm thấy lỗi trong số <b>{{ aTags|length }}</b> liên kết trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- CSS inlines -->
+                <tr>
+                    <th scope="row">CSS nội tuyến</th>
+                    <td class="text-center">
+                        {% if cssInlines|length == 0 %}
+                        <i class="far fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="far fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if cssInlines|length > 0 %}
+                        <div>Tìm thấy <b>{{ cssInlines|length }}</b> thuộc tính css nội tuyến trên trang của bạn.</div>
+                        <small>{% for cssInline in cssInlines %}<i class="fas fa-angle-double-right"></i> {{ cssInline }}<br>{% endfor %}</small>
+                        {% else %}
+                        <div>Không tìm thấy thuộc tính css nội tuyến trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- Alt attribute -->
+                <tr>
+                    <th scope="row">Thuộc tính alt</th>
+                    <td class="text-center">
+                        {% if missAlts|length == 0 %}
+                        <i class="far fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="far fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if missAlts|length > 0 %}
+                        <div>Tìm thấy <b>{{ missAlts|length }}</b> trong số <b>{{ imgTags|length }}</b> thẻ img bị thiếu thuộc tính alt trên trang của bạn.</div>
+                        <small>{% for missAlt in missAlts %}<i class="fas fa-angle-double-right"></i> {{ missAlt }}<br>{% endfor %}</small>
+                        {% else %}
+                        <div>Không tìm thấy lỗi trong số <b>{{ imgTags|length }}</b> thẻ img trên trang của bạn.</div>
+                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
 </div>
 <a href="{% url 'index' %}" class="btn btn-outline-info mb-2">Trở lại</a>
 {% endblock %}

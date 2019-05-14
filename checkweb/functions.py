@@ -170,58 +170,60 @@ def parsing(url):
     - Input: url
     - Output: dict(value)
     """
-    try:
-        page = requests.get(url, timeout=5)
-        content = html.fromstring(page.content.decode('utf-8'))
-    except BaseException:
-        print('Cannot get url!')
-        return False
+    # try:
+    #     page = requests.get(url, timeout=5)
+    #     content = html.fromstring(page.content.decode('utf-8'))
+    # except BaseException:
+    #     print('Cannot get url!')
+    #     return False
+
+    # value = dict()
+    # domain = url.split('/')[2]
+    # urlDomain = url.split('/')[0] + '//' + domain
+
+    # elm = {
+    #     'title': '//title/text()',
+    #     'description': '//meta[@name="description"]/@content',
+    #     'favicon': '//link[contains(@rel, "icon")]/@href',
+    #     'robotsMeta': '//meta[@name="robots"]/@content',
+    # }
+    # elms = {
+    #     'h1Tags': '//h1//text()',
+    #     'h2Tags': '//h2//text()',
+    #     'aTags': '//a/@href',
+    #     'cssInlines': '//@style/..',
+    #     'imgTags': '//img',
+    # }
+
+    # for k, v in elm.items():
+    #     try:
+    #         value[k] = content.xpath(v)[0]
+    #     except BaseException:
+    #         value[k] = None
+    #         print(k, 'not found!')
+
+    # for k, v in elms.items():
+    #     try:
+    #         value[k] = content.xpath(v)
+    #     except BaseException:
+    #         value[k] = None
+    #         print(k, 'not found!')
+
+    # value['favicon'] = getLinkImg(value['favicon'], urlDomain)
+
+    # value['h1Tags'] = cleanElms(value['h1Tags'])
+    # value['h2Tags'] = cleanElms(value['h2Tags'])
+
+    # value['robotsTxt'] = getlinkRobots(urlDomain)
+    # value['sitemaps'] = getlinkSitemap(urlDomain, value['robotsTxt'])
+
+    # value['aTags'] = getlinkA(value['aTags'], urlDomain)
+    # value['aBrokens'] = getBrokenLink(value['aTags'])
+
+    # value['cssInlines'] = getCSSInlines(value['cssInlines'])
+    # value['missAlts'] = checkMissAlts(value['imgTags'])
 
     value = dict()
-    domain = url.split('/')[2]
-    urlDomain = url.split('/')[0] + '//' + domain
-
-    elm = {
-        'title': '//title/text()',
-        'description': '//meta[@name="description"]/@content',
-        'favicon': '//link[contains(@rel, "icon")]/@href',
-        'robotsMeta': '//meta[@name="robots"]/@content',
-    }
-    elms = {
-        'h1Tags': '//h1//text()',
-        'h2Tags': '//h2//text()',
-        'aTags': '//a/@href',
-        'cssInlines': '//@style/..',
-        'imgTags': '//img',
-    }
-
-    for k, v in elm.items():
-        try:
-            value[k] = content.xpath(v)[0]
-        except BaseException:
-            value[k] = None
-            print(k, 'not found!')
-
-    for k, v in elms.items():
-        try:
-            value[k] = content.xpath(v)
-        except BaseException:
-            value[k] = None
-            print(k, 'not found!')
-
-    value['favicon'] = getLinkImg(value['favicon'], urlDomain)
-
-    value['h1Tags'] = cleanElms(value['h1Tags'])
-    value['h2Tags'] = cleanElms(value['h2Tags'])
-
-    value['robotsTxt'] = getlinkRobots(urlDomain)
-    value['sitemaps'] = getlinkSitemap(urlDomain, value['robotsTxt'])
-
-    value['aTags'] = getlinkA(value['aTags'], urlDomain)
-    value['aBrokens'] = getBrokenLink(value['aTags'])
-
-    value['cssInlines'] = getCSSInlines(value['cssInlines'])
-    value['missAlts'] = checkMissAlts(value['imgTags'])
-
+    value['title'] = "Test title"
     print(value)
     return value
