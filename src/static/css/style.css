@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Comfortaa|Roboto');
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:400,700|Roboto');
 body {
     background: #185a9d linear-gradient(to bottom right, #185a9d, #43cea2) fixed;
     font-family: 'Comfortaa', sans-serif;
@@ -8,6 +8,12 @@ main {
 }
 table {
     min-width: 50rem;
+}
+.nav-item {
+    margin: 0 .5rem;
+}
+.navbar-brand {
+    font-size: 2rem;
 }
 #backTop {
     bottom: 3rem;
@@ -22,11 +28,8 @@ table {
 #backTop:hover {
     color: #111;
 }
-.nav-item {
-    margin: 0 .5rem;
-}
-.navbar-brand {
-    font-size: 2rem;
+#copyright {
+    font-family: 'Roboto';
 }
 #submit {
     border-radius: 0 50rem 50rem 0;

@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
-
 {% block title %}Lỗi 403{% endblock %}
 {% block content %}
-<div class="container-fluid text-center">
-    <h1>Lỗi Quyền Truy Cập</h1>
-    <small class="text-danger"><em>* Vui lòng quay lại và tránh khu vực này!</em></small>
+<div class="container text-center mt-5">
+    <h1 class="text-warning font-weight-bold">Truy cập không được phép</h1>
+    <hr>
+    <section class="jumbotron mt-4">
+        <h2 class="display-1 font-weight-bold text-dark">LỖI 403</h2>
+        <div class="font-italic text-danger">* Vui lòng quay lại và tránh khu vực này!</div>
+    </section>
 </div>
 {% endblock %}

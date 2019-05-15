@@ -38,7 +38,7 @@
                         <small><i class="fas fa-angle-double-right"></i> {{ title }}</small>
                         {% else %}
                         <div>Không tìm thấy tiêu đề trên trang của bạn.</div>
-                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        <small><i class="fas fa-angle-double-right"></i><em> None</em></small>
                         {% endif %}
                     </td>
                 </tr>
@@ -58,7 +58,7 @@
                         <small><i class="fas fa-angle-double-right"></i> {{ description }}</small>
                         {% else %}
                         <div>Không tìm thấy mô tả trên trang của bạn</div>
-                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        <small><i class="fas fa-angle-double-right"></i><em> None</em></small>
                         {% endif %}
                     </td>
                 </tr>
@@ -75,10 +75,10 @@
                     <td>
                         {% if favicon %}
                         <div>Tìm thấy hình favicon trên trang của bạn.</div>
-                        <small><i class="fas fa-angle-double-right"></i> <img src="{{ favicon }}" alt="favicon" width="16px"></small>
+                        <small><i class="fas fa-angle-double-right"></i><img src="{{ favicon }}" class="ml-1" alt="favicon" width="16px"></small>
                         {% else %}
                         <div>Không tìm thấy hình favicon trên trang của bạn.</div>
-                        <small><i class="fas fa-angle-double-right"></i> <img src="{% static 'img/no-favicon.ico' %}" alt="nofavicon" width="16px"></small>
+                        <small><i class="fas fa-angle-double-right"></i><img src="{% static 'img/no-favicon.ico' %}" class="ml-1" alt="nofavicon" width="16px"></small>
                         {% endif %}
                     </td>
                 </tr>
@@ -98,7 +98,7 @@
                         <small><i class="fas fa-angle-double-right"></i> {{ robotsMeta }}</small>
                         {% else %}
                         <div>Không tìm thấy thuộc tính robots trên trang của bạn.</div>
-                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        <small><i class="fas fa-angle-double-right"></i><em> None</em></small>
                         {% endif %}
                     </td>
                 </tr>
@@ -118,7 +118,7 @@
                         <small>{% for h1Tag in h1Tags %}<i class="fas fa-angle-double-right"></i> {{ h1Tag }}<br>{% endfor %}</small>
                         {% else %}
                         <div>Không tìm thấy thẻ h1 trên trang của bạn.</div>
-                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        <small><i class="fas fa-angle-double-right"></i><em> None</em></small>
                         {% endif %}
                     </td>
                 </tr>
@@ -138,7 +138,7 @@
                         <small>{% for h2Tag in h2Tags %}<i class="fas fa-angle-double-right"></i> {{ h2Tag }}<br>{% endfor %}</small>
                         {% else %}
                         <div>Không tìm thấy thẻ h2 trên trang của bạn.</div>
-                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        <small><i class="fas fa-angle-double-right"></i><em> None</em></small>
                         {% endif %}
                     </td>
                 </tr>
@@ -158,7 +158,7 @@
                         <small><i class="fas fa-angle-double-right"></i> {{ robotsTxt }}</small>
                         {% else %}
                         <div>Không tìm thấy liên kết robots.txt trên trang của bạn.</div>
-                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        <small><i class="fas fa-angle-double-right"></i><em> None</em></small>
                         {% endif %}
                     </td>
                 </tr>
@@ -178,7 +178,7 @@
                         <small>{% for sitemap in sitemaps %}<i class="fas fa-angle-double-right"></i> {{ sitemap }}<br>{% endfor %}</small>
                         {% else %}
                         <div>Không tìm thấy liên kết sitemap.xml trên trang của bạn.</div>
-                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        <small><i class="fas fa-angle-double-right"></i><em> None</em></small>
                         {% endif %}
                     </td>
                 </tr>
@@ -198,7 +198,7 @@
                         <small>{% for aBroken in aBrokens %}<i class="fas fa-angle-double-right"></i> {{ aBroken }}<br>{% endfor %}</small>
                         {% else %}
                         <div>Không tìm thấy lỗi trong số <b>{{ aTags|length }}</b> liên kết trên trang của bạn.</div>
-                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        <small><i class="fas fa-angle-double-right"></i><em> None</em></small>
                         {% endif %}
                     </td>
                 </tr>
@@ -218,7 +218,7 @@
                         <small>{% for cssInline in cssInlines %}<i class="fas fa-angle-double-right"></i> {{ cssInline }}<br>{% endfor %}</small>
                         {% else %}
                         <div>Không tìm thấy thuộc tính css nội tuyến trên trang của bạn.</div>
-                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        <small><i class="fas fa-angle-double-right"></i><em> None</em></small>
                         {% endif %}
                     </td>
                 </tr>
@@ -238,15 +238,15 @@
                         <small>{% for missAlt in missAlts %}<i class="fas fa-angle-double-right"></i> {{ missAlt }}<br>{% endfor %}</small>
                         {% else %}
                         <div>Không tìm thấy lỗi trong số <b>{{ imgTags|length }}</b> thẻ img trên trang của bạn.</div>
-                        <small><i class="fas fa-angle-double-right"></i> <em>None</em></small>
+                        <small><i class="fas fa-angle-double-right"></i><em> None</em></small>
                         {% endif %}
                     </td>
                 </tr>
             </tbody>
         </table>
     </section>
+    <a href="{% url 'index' %}" class="btn btn-warning mb-2">Trở lại</a>
 </div>
-<a href="{% url 'index' %}" class="btn btn-outline-info mb-2">Trở lại</a>
 {% endblock %}
 {% block script %}
 <script>

@@ -45,7 +45,7 @@
                         </div>
                     </li>
                     <li class="nav-item"><a href="/" class="nav-link disabled">Quảng cáo</a></li>
-                    <li class="nav-item mr-0"><a href="https://github.com/pythinh/check-seo" class="btn btn-info" target="_blank"><i class="fab fa-github"></i> Github</a></li>
+                    <li class="nav-item mr-0"><a href="https://github.com/pythinh/check-seo" class="btn btn-dark" target="_blank"><i class="fab fa-github"></i> Github</a></li>
                     <li class="nav-item">
                         <a href='javascript:/* debug.css | MIT License | zaydek.github.com/debug.css */ if (!("is_debugging" in window)) { is_debugging = false; var debug_el = document.createElement("style"); debug_el.append(document.createTextNode(`*:not(path):not(g) { color: hsla(210, 100%, 100%, 0.9) !important; background: hsla(210, 100%,  50%, 0.5) !important; outline: solid 0.25rem hsla(210, 100%, 100%, 0.5) !important; box-shadow: none !important; filter: none !important; }`)); } function enable_debugger() { if (!is_debugging) { document.head.appendChild(debug_el); is_debugging = true; } } function disable_debugger() { if (is_debugging) { document.head.removeChild(debug_el); is_debugging = false; } } !is_debugging ? enable_debugger() : disable_debugger();' class="nav-link">Debug</a>
                     </li>
@@ -55,7 +55,7 @@
     </header>
     <!-- Main -->
     <main role="main" class="flex-shrink-0 text-light">
-        <div class="container-fluid h-100">{% block content %}{% endblock %}</div>
+        {% block content %}{% endblock %}
     </main>
     <!-- Footer -->
     <footer class="footer mt-auto py-3">
