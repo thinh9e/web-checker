@@ -21,3 +21,8 @@ def server_error(request):
 class Robots(TemplateView):
     template_name = 'robots.txt'
     content_type = 'text/plain'
+
+
+class Sitemap(TemplateView):
+    template_name = 'sitemap.xml'
+    content_type = 'application/xml'

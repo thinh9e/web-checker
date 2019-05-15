@@ -22,6 +22,7 @@ urlpatterns = [
     path('', include('checkweb.urls')),
     path('admin/', admin.site.urls),
     path('robots.txt', views.Robots.as_view(), name='robots'),
+    path('sitemap.xml', views.Sitemap.as_view(), name='sitemap'),
 ]
 
 handler400 = views.bad_request
