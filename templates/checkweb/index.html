@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 {% block script %}
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<script>
-var sm=document.getElementById("submit");sm.onclick=validate;function validate(event){event.preventDefault();grecaptcha.execute()};function onSubmit(token){sm.onclick=null;sm.click()}
-</script>
+<script>var sm=document.getElementById("submit");sm.onclick=validate;function validate(event){event.preventDefault();grecaptcha.execute()};function onSubmit(token){sm.onclick=null;sm.click()}</script>
 {% endblock %}
 {% block content %}
 <div class="container-fluid h-100">
