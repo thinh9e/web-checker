@@ -74,12 +74,7 @@ WSGI_APPLICATION = 'src.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = {}
 
 
 # Password validation
@@ -127,11 +122,3 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'src/static_venv')]
 # https://developers.google.com/recaptcha/docs/verify/
 
 GOOGLE_RECAPTCHA_SECRET_KEY = ''
-
-
-# Load local_settings
-
-# try:
-#     from .local_settings import *
-# except ImportError:
-#     pass
