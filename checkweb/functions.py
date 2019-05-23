@@ -2,7 +2,7 @@ from concurrent.futures import ThreadPoolExecutor
 import re
 import requests
 from lxml import html
-# from django.conf import settings
+from django.conf import settings
 
 
 def reCaptcha(response, userIP):
@@ -133,7 +133,7 @@ def getlinkA(elms, urlDomain):
         elif elm[:2] not in ('ht', '//'):
             elms[idx] = urlDomain + "/" + elm.lstrip('/')
         elif elm[:2] == '//':
-            elms[idx] = 'http:' + elm
+            elms[idx] = 'https:' + elm
         idx += 1
     return set(elms)
 
@@ -164,66 +164,80 @@ def checkMissAlts(elms):
     return res
 
 
+def getPageRank(domain):
+    """
+    Get page rank using data from Open PageRank
+    - Input: domain website
+    - Output: rank of domain
+    """
+    url = 'https://openpagerank.com/api/v1.0/getPageRank?domains[0]=' + domain
+    headers = {
+        'API-OPR': settings.OPEN_PAGERANK_KEY
+    }
+    data = requests.get(url, headers=headers)
+    result = data.json()['response'][0]
+    return result['rank']
+
+
 def parsing(url):
     """
     Parsing website from url
     - Input: url
     - Output: dict(value)
     """
-    # try:
-    #     page = requests.get(url, timeout=5)
-    #     content = html.fromstring(page.content.decode('utf-8'))
-    # except BaseException:
-    #     print('Cannot get url!')
-    #     return False
-
-    # value = dict()
-    # domain = url.split('/')[2]
-    # urlDomain = url.split('/')[0] + '//' + domain
-
-    # elm = {
-    #     'title': '//title/text()',
-    #     'description': '//meta[@name="description"]/@content',
-    #     'favicon': '//link[contains(@rel, "icon")]/@href',
-    #     'robotsMeta': '//meta[@name="robots"]/@content',
-    # }
-    # elms = {
-    #     'h1Tags': '//h1//text()',
-    #     'h2Tags': '//h2//text()',
-    #     'aTags': '//a/@href',
-    #     'cssInlines': '//@style/..',
-    #     'imgTags': '//img',
-    # }
-
-    # for k, v in elm.items():
-    #     try:
-    #         value[k] = content.xpath(v)[0]
-    #     except BaseException:
-    #         value[k] = None
-    #         print(k, 'not found!')
-
-    # for k, v in elms.items():
-    #     try:
-    #         value[k] = content.xpath(v)
-    #     except BaseException:
-    #         value[k] = None
-    #         print(k, 'not found!')
-
-    # value['favicon'] = getLinkImg(value['favicon'], urlDomain)
-
-    # value['h1Tags'] = cleanElms(value['h1Tags'])
-    # value['h2Tags'] = cleanElms(value['h2Tags'])
-
-    # value['robotsTxt'] = getlinkRobots(urlDomain)
-    # value['sitemaps'] = getlinkSitemap(urlDomain, value['robotsTxt'])
-
-    # value['aTags'] = getlinkA(value['aTags'], urlDomain)
-    # value['aBrokens'] = getBrokenLink(value['aTags'])
-
-    # value['cssInlines'] = getCSSInlines(value['cssInlines'])
-    # value['missAlts'] = checkMissAlts(value['imgTags'])
+    try:
+        page = requests.get(url, timeout=5)
+        content = html.fromstring(page.content.decode('utf-8'))
+    except BaseException:
+        print('Cannot get url!')
+        return False
 
     value = dict()
-    value['title'] = "Test title"
-    print(value)
+    domain = url.split('/')[2]
+    urlDomain = url.split('/')[0] + '//' + domain
+
+    elm = {
+        'title': '//title/text()',
+        'description': '//meta[@name="description"]/@content',
+        'favicon': '//link[contains(@rel, "icon")]/@href',
+        'robotsMeta': '//meta[@name="robots"]/@content',
+    }
+    elms = {
+        'h1Tags': '//h1//text()',
+        'h2Tags': '//h2//text()',
+        'aTags': '//a/@href',
+        'cssInlines': '//@style/..',
+        'imgTags': '//img',
+    }
+
+    for k, v in elm.items():
+        try:
+            value[k] = content.xpath(v)[0]
+        except BaseException:
+            value[k] = None
+            print(k, 'not found!')
+
+    for k, v in elms.items():
+        try:
+            value[k] = content.xpath(v)
+        except BaseException:
+            value[k] = None
+            print(k, 'not found!')
+
+    value['favicon'] = getLinkImg(value['favicon'], urlDomain)
+
+    value['h1Tags'] = cleanElms(value['h1Tags'])
+    value['h2Tags'] = cleanElms(value['h2Tags'])
+
+    value['robotsTxt'] = getlinkRobots(urlDomain)
+    value['sitemaps'] = getlinkSitemap(urlDomain, value['robotsTxt'])
+
+    value['aTags'] = getlinkA(value['aTags'], urlDomain)
+    value['aBrokens'] = getBrokenLink(value['aTags'])
+
+    value['cssInlines'] = getCSSInlines(value['cssInlines'])
+    value['missAlts'] = checkMissAlts(value['imgTags'])
+
+    value['pageRank'] = getPageRank(domain)
+
     return value

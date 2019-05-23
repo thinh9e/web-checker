@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'checkweb.apps.CheckwebConfig',
 ]
 
@@ -122,3 +123,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'src/static_venv')]
 # https://developers.google.com/recaptcha/docs/verify/
 
 GOOGLE_RECAPTCHA_SECRET_KEY = ''
+
+
+# Open PageRank key
+# https://www.domcop.com/openpagerank/
+
+OPEN_PAGERANK_KEY = ''
