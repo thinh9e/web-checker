@@ -7,7 +7,7 @@
     border-radius: .25rem;
 }
 body {
-    background: #185a9d linear-gradient(to bottom right, #185a9d, #43cea2) no-repeat center fixed;
+    background: #43cea2 linear-gradient(to bottom right, #185a9d, #43cea2) no-repeat center fixed;
     background-size: cover;
     font-family: "Comfortaa", sans-serif;
 }
