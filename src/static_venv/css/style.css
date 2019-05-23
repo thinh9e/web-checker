@@ -7,7 +7,7 @@
     border-radius: .25rem;
 }
 body {
-    background: #43cea2 linear-gradient(to bottom right, #185a9d, #43cea2) no-repeat center fixed;
+    background: linear-gradient(to bottom right, #185a9d, #43cea2) no-repeat center fixed;
     background-size: cover;
     font-family: "Comfortaa", sans-serif;
 }
@@ -37,15 +37,17 @@ table {
     color: #111;
 }
 #copyright {
-    font-family: "Roboto", sans-serif;
+    font-size: .85rem;
 }
 #submit {
     border-radius: 0 50rem 50rem 0;
+    font-size: 1rem;
     margin-left: -.3rem;
-    margin-top: -.25rem;
+    margin-top: -.1rem;
     padding: .75rem 1rem;
 }
 #url {
     border-radius: 50rem 0 0 50rem;
-    padding: 1.75rem;
+    font-size: 1rem;
+    padding: 1.5rem;
 }
