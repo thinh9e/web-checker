@@ -169,13 +169,14 @@ def getPageRank(domain):
     - Input: domain website
     - Output: rank of domain
     """
-    url = 'https://openpagerank.com/api/v1.0/getPageRank?domains[0]=' + domain
-    headers = {
-        'API-OPR': settings.OPEN_PAGERANK_KEY
-    }
-    data = requests.get(url, headers=headers)
-    result = data.json()['response'][0]
-    return result['rank']
+    # url = 'https://openpagerank.com/api/v1.0/getPageRank?domains[0]=' + domain
+    # headers = {
+    #     'API-OPR': settings.OPEN_PAGERANK_KEY
+    # }
+    # data = requests.get(url, headers=headers)
+    # result = data.json()['response'][0]
+    # return result['rank']
+    return 0
 
 
 def parsing(url):
@@ -224,19 +225,14 @@ def parsing(url):
             print(k, 'not found!')
 
     value['favicon'] = getLinkImg(value['favicon'], urlDomain)
-
     value['h1Tags'] = cleanElms(value['h1Tags'])
     value['h2Tags'] = cleanElms(value['h2Tags'])
-
     value['robotsTxt'] = getlinkRobots(urlDomain)
     value['sitemaps'] = getlinkSitemap(urlDomain, value['robotsTxt'])
-
     value['aTags'] = getlinkA(value['aTags'], urlDomain)
     value['aBrokens'] = getBrokenLink(value['aTags'])
-
     value['cssInlines'] = getCSSInlines(value['cssInlines'])
     value['missAlts'] = checkMissAlts(value['imgTags'])
-
     value['pageRank'] = getPageRank(domain)
 
     return value
