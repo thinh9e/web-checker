@@ -11,7 +11,7 @@
       <span class="input-group-text" id="urlGr">URL</span>
     </div>
     <input type="text" value="{{ url }}" class="form-control bg-white" aria-describedby="urlGr" readonly>
-    <div id="score" class=""></div>
+    <div id="score" class="col-md-2 btn"></div>
   </section>
   <section class="table-responsive rounded mb-3">
     <table class="table table-bordered bg-light mb-0" id="tbCheck">
@@ -28,10 +28,11 @@
           <th scope="row">Tiêu đề</th>
           <td class="text-center">
             {% if title and title|length < 65 %}
-            <i class="far fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle text-success"></i>
             {% else %}
-            <i class="far fa-times-circle text-danger"></i>
+            <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
+            <input type="hidden" class="point" value="5">
           </td>
           <td>
             {% if title %}
@@ -48,10 +49,11 @@
           <th scope="row">Mô tả</th>
           <td class="text-center">
             {% if description and description|length < 160 %}
-            <i class="far fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle text-success"></i>
             {% else %}
-            <i class="far fa-times-circle text-danger"></i>
+            <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
+            <input type="hidden" class="point" value="5">
           </td>
           <td>
             {% if description %}
@@ -84,10 +86,11 @@
           <th scope="row">Favicon</th>
           <td class="text-center">
             {% if favicon %}
-            <i class="far fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle text-success"></i>
             {% else %}
-            <i class="far fa-times-circle text-danger"></i>
+            <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
+            <input type="hidden" class="point" value="5">
           </td>
           <td>
             {% if favicon %}
@@ -104,10 +107,11 @@
           <th scope="row">Robots</th>
           <td class="text-center">
             {% if robotsMeta %}
-            <i class="far fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle text-success"></i>
             {% else %}
-            <i class="far fa-times-circle text-danger"></i>
+            <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
+            <input type="hidden" class="point" value="5">
           </td>
           <td>
             {% if robotsMeta %}
@@ -124,10 +128,11 @@
           <th scope="row">Thẻ h1</th>
           <td class="text-center">
             {% if h1Tags %}
-            <i class="far fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle text-success"></i>
             {% else %}
-            <i class="far fa-times-circle text-danger"></i>
+            <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
+            <input type="hidden" class="point" value="5">
           </td>
           <td>
             {% if h1Tags %}
@@ -144,10 +149,11 @@
           <th scope="row">Thẻ h2</th>
           <td class="text-center">
             {% if h2Tags %}
-            <i class="far fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle text-success"></i>
             {% else %}
-            <i class="far fa-times-circle text-danger"></i>
+            <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
+            <input type="hidden" class="point" value="3">
           </td>
           <td>
             {% if h2Tags %}
@@ -164,10 +170,11 @@
           <th scope="row">Robots.txt</th>
           <td class="text-center">
             {% if robotsTxt %}
-            <i class="far fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle text-success"></i>
             {% else %}
-            <i class="far fa-times-circle text-danger"></i>
+            <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
+            <input type="hidden" class="point" value="5">
           </td>
           <td>
             {% if robotsTxt %}
@@ -184,10 +191,11 @@
           <th scope="row">Sitemap</th>
           <td class="text-center">
             {% if sitemaps %}
-            <i class="far fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle text-success"></i>
             {% else %}
-            <i class="far fa-times-circle text-danger"></i>
+            <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
+            <input type="hidden" class="point" value="5">
           </td>
           <td>
             {% if sitemaps %}
@@ -204,10 +212,11 @@
           <th scope="row">Lỗi liên kết</th>
           <td class="text-center">
             {% if aBrokens|length == 0 %}
-            <i class="far fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle text-success"></i>
             {% else %}
-            <i class="far fa-times-circle text-danger"></i>
+            <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
+            <input type="hidden" class="point" value="3">
           </td>
           <td>
             {% if aBrokens|length > 0 %}
@@ -224,10 +233,11 @@
           <th scope="row">CSS nội tuyến</th>
           <td class="text-center">
             {% if cssInlines|length == 0 %}
-            <i class="far fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle text-success"></i>
             {% else %}
-            <i class="far fa-times-circle text-danger"></i>
+            <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
+            <input type="hidden" class="point" value="3">
           </td>
           <td>
             {% if cssInlines|length > 0 %}
@@ -244,10 +254,11 @@
           <th scope="row">Thuộc tính alt</th>
           <td class="text-center">
             {% if missAlts|length == 0 %}
-            <i class="far fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle text-success"></i>
             {% else %}
-            <i class="far fa-times-circle text-danger"></i>
+            <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
+            <input type="hidden" class="point" value="3">
           </td>
           <td>
             {% if missAlts|length > 0 %}
@@ -267,19 +278,22 @@
 {% endblock %}
 {% block script %}
 <script>
-  var table = document.getElementsByTagName('table')[0];
-  var total = table.getElementsByClassName('far');
-  var success = table.getElementsByClassName('far fa-check-circle text-success');
-  var score = Math.round(success.length / total.length * 100);
-  document.getElementById('score').innerText = "Điểm: " + score;
-  if (score >= 80) {
-    document.getElementById('score').className = "col-md-2 btn btn-success";
-  }
-  else if (score >= 50) {
-    document.getElementById('score').className = "col-md-2 btn btn-warning";
-  }
-  else {
-    document.getElementById('score').className = "col-md-2 btn btn-danger";
-  }
+var total = 0;
+$("#tbCheck .point").each(function() {
+  total += parseInt($(this)[0].value);
+});
+var score = 0;
+$("#tbCheck .fa-check-circle").each(function() {
+  score += parseInt($(this).parent().children().last()[0].value);
+});
+score = Math.round(score / total * 100);
+$("#score").text("Điểm: " + score);
+if (score >= 80) {
+  $("#score").addClass("btn-success");
+} else if (score >= 50) {
+  $("#score").addClass("btn-warning");
+} else {
+  $("#score").addClass("btn-danger");
+}
 </script>
 {% endblock %}
