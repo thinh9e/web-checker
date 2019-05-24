@@ -14,12 +14,11 @@ def reCaptcha(response, userIP):
     # data = {
     #     'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
     #     'response': response,
-    #     'remoteip': userIP
+    #     'remoteip': userIP,
     # }
     # verify = requests.post(
     #     'https://www.google.com/recaptcha/api/siteverify', data=data)
     # result = verify.json()
-    # print(result)
     # return result['success']
     print(response, userIP)
     return True
