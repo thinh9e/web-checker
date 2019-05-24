@@ -7,19 +7,13 @@
         <li class="nav-item ml-0{% if '/' == request.path %} active{% endif %}"><a href="{% url 'index' %}" class="nav-link">Trang chủ</a></li>
         <li class="nav-item{% if 'gioi-thieu' in request.path %} active{% endif %}"><a href="{% url 'about' %}" class="nav-link">Giới thiệu</a></li>
         <li class="nav-item{% if 'lien-he' in request.path %} active{% endif %}"><a href="{% url 'contact' %}" class="nav-link">Liên hệ</a></li>
+        <li class="nav-item{% if 'kiem-tra' in request.path %} active{% endif %}"><a href="{% url 'check' %}" class="nav-link">Kiểm tra</a></li>
         <li class="nav-item dropdown">
           <a href="/" class="nav-link dropdown-toggle" id="navbarTips" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Thủ thuật</a>
           <div class="dropdown-menu" aria-labelledby="navbarTips">
             <a class="dropdown-item" href="/">Kỹ thuật SEO</a>
             <a class="dropdown-item" href="/">Tăng tốc độ tải trang</a>
             <a class="dropdown-item" href="/">Tối ưu hiển thị di động</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a href="/" class="nav-link dropdown-toggle" id="navbarTools" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Công cụ</a>
-          <div class="dropdown-menu" aria-labelledby="navbarTools">
-            <a class="dropdown-item" href="/">Tìm sitemap</a>
-            <a class="dropdown-item" href="/">Lỗi liên kết</a>
           </div>
         </li>
         <li class="nav-item"><a href="/" class="nav-link disabled"><i class="fas fa-heart"></i> Donate</a></li>
