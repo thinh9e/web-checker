@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', include('checkweb.urls')),
+    path('thu-thuat/', include('tips.urls')),
     path('robots.txt', views.Robots.as_view(), name='robots'),
     path('sitemap.xml', views.Sitemap.as_view(), name='sitemap'),
 ]
