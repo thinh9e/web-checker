@@ -28,7 +28,7 @@ class CheckView(TemplateView):
             'favicon': 'https://danhgiaweb.top/static/img/favicon.png',
             'robotsMeta': 'index, follow, noodp, noydir',
             'h1Tags': ['Phân tích & Đánh giá SEO'],
-            'h2Tags': [],
+            'h2Tags': ['Nhanh chóng, Chính xác, Miễn phí'],
             'robotsTxt': 'https://danhgiaweb.top/robots.txt',
             'sitemaps': ['https://danhgiaweb.top/sitemap.xml'],
             'aBrokens': [],

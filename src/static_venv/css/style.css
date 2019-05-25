@@ -12,7 +12,7 @@ body {
     font-family: "Comfortaa", sans-serif;
 }
 main {
-    min-height: 80%;
+    min-height: 70vh;
 }
 table {
     min-width: 50rem;
@@ -44,7 +44,7 @@ table {
     font-size: 1rem;
     margin-left: -.3rem;
     margin-top: -.1rem;
-    padding: .75rem 1rem;
+    padding: .7rem 1rem;
 }
 #url {
     border-radius: 50rem 0 0 50rem;

@@ -1,17 +1,13 @@
 {% extends 'base.html' %}
-{% block script %}
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<script>var sm=document.getElementById("submit");sm.onclick=validate;function validate(event){event.preventDefault();grecaptcha.execute()};function onSubmit(token){sm.onclick=null;sm.click()}</script>
-{% endblock %}
 {% block content %}
 <div class="container-fluid h-100">
   <div class="row h-100">
     <div class="col-12 my-auto">
       <section class="text-center">
         <h1 class="display-4 font-weight-bold text-light">Phân tích & Đánh giá SEO</h1>
-        <h3 class="display-5 text-warning">Nhanh chóng, Chính xác, Miễn phí</h3>
+        <h2 class="display-5 text-warning">Nhanh chóng, Chính xác, Miễn phí</h2>
       </section>
-      <section class="mt-5">
+      <section class="mt-4">
         <form action="{% url 'check' %}" method="post" class="form-group text-center" id="form">
           {% csrf_token %}
           <input type="url" class="form-control{% if errURL %} border-danger{% endif %} form-control-lg d-inline-flex col-9 col-md-4" name="url" value="{% for message in messages %}{% if forloop.first %}{{ message }}{% endif %}{% endfor %}" id="url" placeholder="Nhập vào URL (có https://)" required>
@@ -25,4 +21,8 @@
     </div>
   </div>
 </div>
+{% endblock %}
+{% block script %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>var sm=document.getElementById("submit");sm.onclick=validate;function validate(event){event.preventDefault();grecaptcha.execute()};function onSubmit(token){sm.onclick=null;sm.click();sm.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>`;sm.style.pointerEvents="none"}</script>
 {% endblock %}

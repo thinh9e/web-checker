@@ -277,23 +277,5 @@
 </div>
 {% endblock %}
 {% block script %}
-<script>
-var total = 0;
-$("#tbCheck .point").each(function() {
-  total += parseInt($(this)[0].value);
-});
-var score = 0;
-$("#tbCheck .fa-check-circle").each(function() {
-  score += parseInt($(this).parent().children().last()[0].value);
-});
-score = Math.round(score / total * 100);
-$("#score").text("Điểm: " + score);
-if (score >= 80) {
-  $("#score").addClass("btn-success");
-} else if (score >= 50) {
-  $("#score").addClass("btn-warning");
-} else {
-  $("#score").addClass("btn-danger");
-}
-</script>
+<script>$(document).ready(function(){var total=0;$("#tbCheck .point").each(function(){total+=parseInt($(this)[0].value)});var score=0;$("#tbCheck .fa-check-circle").each(function(){score+=parseInt($(this).parent().children().last()[0].value)});score=Math.round(score/total*100);$("#score").text("Điểm: "+score);if(score>=80){$("#score").addClass("btn-success")}else if(score>=50){$("#score").addClass("btn-warning")}else{$("#score").addClass("btn-danger")}})</script>
 {% endblock %}
