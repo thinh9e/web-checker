@@ -73,10 +73,10 @@
           </td>
           <td>
             {% if pageRank %}
-            <div>Xếp hạng trang của bạn dựa trên dữ liệu thu thập là:</div>
+            <div>Xếp hạng trang của bạn dựa trên dữ liệu thu thập là từ <a href="https://www.domcop.com/openpagerank" target="_blank" rel="noopener noreferrer">Open PageRank</a> là:</div>
             <small><i class="fas fa-angle-double-right"></i> {{ pageRank|intcomma }}</small>
             {% else %}
-            <div>Không tìm thấy xếp hạng trang của bạn dựa trên dữ liệu thu thập.</div>
+            <div>Không tìm thấy xếp hạng trang của bạn dựa trên dữ liệu thu thập từ <a href="https://www.domcop.com/openpagerank" target="_blank" rel="noopener noreferrer">Open PageRank</a>.</div>
             <small><i class="fas fa-angle-double-right"></i><em> None</em></small>
             {% endif %}
           </td>
@@ -153,7 +153,7 @@
             {% else %}
             <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
-            <input type="hidden" class="point" value="3">
+            <input type="hidden" class="point" value="4">
           </td>
           <td>
             {% if h2Tags %}
@@ -199,7 +199,7 @@
           </td>
           <td>
             {% if sitemaps %}
-            <div>Tìm thấy <b>{{ sitemaps|length }}</b> liên kết sitemap.xml trên trang của bạn.</div>
+            <div>Tìm thấy <b>{{ sitemaps|length }}</b> liên kết sitemap trên trang của bạn.</div>
             <small>{% for sitemap in sitemaps %}<i class="fas fa-angle-double-right"></i> {{ sitemap }}<br>{% endfor %}</small>
             {% else %}
             <div>Không tìm thấy liên kết sitemap.xml trên trang của bạn.</div>
@@ -216,7 +216,7 @@
             {% else %}
             <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
-            <input type="hidden" class="point" value="3">
+            <input type="hidden" class="point" value="{% widthratio aBrokens|length aTags|length 5 %}">
           </td>
           <td>
             {% if aBrokens|length > 0 %}
@@ -258,7 +258,7 @@
             {% else %}
             <i class="fas fa-times-circle text-danger"></i>
             {% endif %}
-            <input type="hidden" class="point" value="3">
+            <input type="hidden" class="point" value="{% widthratio missAlts|length imgTags|length 5 %}">
           </td>
           <td>
             {% if missAlts|length > 0 %}
@@ -277,5 +277,5 @@
 </div>
 {% endblock %}
 {% block script %}
-<script>$(document).ready(function(){var total=0;$("#tbCheck .point").each(function(){total+=parseInt($(this)[0].value)});var score=0;$("#tbCheck .fa-check-circle").each(function(){score+=parseInt($(this).parent().children().last()[0].value)});score=Math.round(score/total*100);$("#score").text("Điểm: "+score);if(score>=80){$("#score").addClass("btn-success")}else if(score>=50){$("#score").addClass("btn-warning")}else{$("#score").addClass("btn-danger")}})</script>
+<script>$(document).ready(function(){var total=52;var score=0;$("#tbCheck .fa-times-circle").each(function(){score+=parseInt($(this).parent().children().last()[0].value)});score=Math.round((total-score)/total*100);$("#score").text("Điểm: "+score);if(score>=80){$("#score").addClass("btn-success")}else if(score>=50){$("#score").addClass("btn-warning")}else{$("#score").addClass("btn-danger")}})</script>
 {% endblock %}
