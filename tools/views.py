@@ -5,20 +5,20 @@ from .functions import parsing, reCaptcha
 
 
 class IndexView(TemplateView):
-    template_name = 'checkweb/index.html'
+    template_name = 'tools/index.html'
 
 
 class AboutView(TemplateView):
-    template_name = 'checkweb/about.html'
+    template_name = 'tools/about.html'
 
 
 class ContactView(TemplateView):
-    template_name = 'checkweb/contact.html'
+    template_name = 'tools/contact.html'
 
 
 class CheckView(TemplateView):
-    template_name = 'checkweb/check.html'
-    template_error = 'checkweb/index.html'
+    template_name = 'tools/check.html'
+    template_error = 'tools/index.html'
 
     def get(self, request):
         context = {

@@ -3,7 +3,7 @@ from django.conf.urls import handler400, handler403, handler404, handler500
 from . import views
 
 urlpatterns = [
-    path('', include('checkweb.urls')),
+    path('', include('tools.urls')),
     path('thu-thuat/', include('tips.urls')),
     path('robots.txt', views.Robots.as_view(), name='robots'),
     path('sitemap.xml', views.Sitemap.as_view(), name='sitemap'),
