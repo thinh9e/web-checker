@@ -1,6 +1,6 @@
-from concurrent.futures import ThreadPoolExecutor
 import re
 import requests
+import concurrent.futures
 from lxml import html
 from django.conf import settings
 
@@ -11,17 +11,17 @@ def reCaptcha(response, userIP):
     - Input: POST['g-recaptcha-response'], META['HTTP_X_FORWARDED_FOR']
     - Output: True if pass
     """
-    # data = {
-    #     'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-    #     'response': response,
-    #     'remoteip': userIP,
-    # }
-    # verify = requests.post(
-    #     'https://www.google.com/recaptcha/api/siteverify', data=data)
-    # result = verify.json()
-    # return result['success']
-    print(response, userIP)
-    return True
+    if settings.DEBUG:
+        print(response, userIP)
+        return True
+    data = {
+        'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+        'response': response,
+        'remoteip': userIP,
+    }
+    verify = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+    result = verify.json()
+    return result['success']
 
 
 def getLinkImg(elm, urlDomain):
@@ -48,14 +48,14 @@ def cleanElms(elms):
     return elms
 
 
-def getlinkRobots(urlDomain):
+def getlinkRobots(session, urlDomain):
     """
     Get link robots.txt
     - Input: url domain
     - Output: link robots.txt or false
     """
     try:
-        value = requests.get(urlDomain + '/robots.txt')
+        value = session.get(urlDomain + '/robots.txt')
     except BaseException:
         print('robots.txt not found!')
         return None
@@ -64,19 +64,19 @@ def getlinkRobots(urlDomain):
     return urlDomain + '/robots.txt'
 
 
-def getlinkSitemap(urlDomain, robots):
+def getlinkSitemap(session, urlDomain, robots):
     """
     Get link sitemap.xml
     - Input: url domain, robots.txt
     - Output: link sitemap.xml or false
     """
     try:
-        value = requests.get(urlDomain + '/sitemap.xml')
+        value = session.get(urlDomain + '/sitemap.xml')
     except BaseException:
         print('sitemap.xml not found!')
         return None
     if robots:
-        txt = requests.get(robots).content.decode('utf-8')
+        txt = session.get(robots).content.decode('utf-8')
         txt = txt.replace('\n', '')
         sitemap = re.findall(r'Sitemap:.*xml', txt)
         if sitemap:
@@ -88,14 +88,14 @@ def getlinkSitemap(urlDomain, robots):
     return sitemap
 
 
-def checkBrokenLink(elm):
+def checkBrokenLink(session, elm):
     """
     Check broken link
     - Input: a link
     - Output: elm if broken
     """
     try:
-        value = requests.get(elm, timeout=5)
+        value = session.get(elm, timeout=5)
     except BaseException:
         return elm
     if value.status_code != 200:
@@ -103,17 +103,18 @@ def checkBrokenLink(elm):
     return None
 
 
-def getBrokenLink(elms):
+def getBrokenLink(session, elms):
     """
     Get broken links
     - Input: list all link
     - Output: list broken link
     """
     res = list()
-    with ThreadPoolExecutor() as executor:
-        for elm in executor.map(checkBrokenLink, elms):
-            if elm:
-                res.append(elm)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = {executor.submit(checkBrokenLink, session, elm): elm for elm in elms}
+        for future in concurrent.futures.as_completed(futures):
+            if future.result():
+                res.append(future.result())
     return res
 
 
@@ -169,14 +170,15 @@ def getPageRank(domain):
     - Input: domain website
     - Output: rank of domain
     """
-    # url = 'https://openpagerank.com/api/v1.0/getPageRank?domains[0]=' + domain
-    # headers = {
-    #     'API-OPR': settings.OPEN_PAGERANK_KEY
-    # }
-    # data = requests.get(url, headers=headers)
-    # result = data.json()['response'][0]
-    # return result['rank']
-    return 0
+    if settings.DEBUG:
+        return 0
+    url = 'https://openpagerank.com/api/v1.0/getPageRank?domains[0]=' + domain
+    headers = {
+        'API-OPR': settings.OPEN_PAGERANK_KEY
+    }
+    data = requests.get(url, headers=headers)
+    result = data.json()['response'][0]
+    return result['rank']
 
 
 def parsing(url):
@@ -186,7 +188,8 @@ def parsing(url):
     - Output: dict(value)
     """
     try:
-        page = requests.get(url, timeout=5)
+        session = requests.Session()
+        page = session.get(url, timeout=5)
         content = html.fromstring(page.content.decode('utf-8'))
     except BaseException:
         print('Cannot get url!')
@@ -227,12 +230,13 @@ def parsing(url):
     value['favicon'] = getLinkImg(value['favicon'], urlDomain)
     value['h1Tags'] = cleanElms(value['h1Tags'])
     value['h2Tags'] = cleanElms(value['h2Tags'])
-    value['robotsTxt'] = getlinkRobots(urlDomain)
-    value['sitemaps'] = getlinkSitemap(urlDomain, value['robotsTxt'])
+    value['robotsTxt'] = getlinkRobots(session, urlDomain)
+    value['sitemaps'] = getlinkSitemap(session, urlDomain, value['robotsTxt'])
     value['aTags'] = getlinkA(value['aTags'], urlDomain)
-    value['aBrokens'] = getBrokenLink(value['aTags'])
+    value['aBrokens'] = getBrokenLink(session, value['aTags'])
     value['cssInlines'] = getCSSInlines(value['cssInlines'])
     value['missAlts'] = checkMissAlts(value['imgTags'])
     value['pageRank'] = getPageRank(domain)
 
+    session.close()
     return value
