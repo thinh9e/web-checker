@@ -20,24 +20,6 @@ class CheckView(TemplateView):
     template_name = 'checker/check.html'
     template_error = 'checker/index.html'
 
-    def get(self, request):
-        context = {
-            'title': 'Phân tích & Đánh giá SEO cho website của bạn | Đánh Giá Web',
-            'description': 'Trang phân tích, đánh giá SEO cho website nhanh chóng, chính xác và miễn phí',
-            'pageRank': 0,
-            'favicon': 'https://danhgiaweb.top/static/img/favicon.png',
-            'robotsMeta': 'index, follow, noodp, noydir',
-            'h1Tags': ['Phân tích & Đánh giá SEO'],
-            'h2Tags': ['Nhanh chóng, Chính xác, Miễn phí'],
-            'robotsTxt': 'https://danhgiaweb.top/robots.txt',
-            'sitemaps': ['https://danhgiaweb.top/sitemap.xml'],
-            'aBrokens': [],
-            'cssInlines': [],
-            'missAlts': [],
-            'url': 'https://danhgiaweb.top/',
-        }
-        return render(request, self.template_name, context)
-
     def post(self, request):
         url = request.POST['url']
         # reCaptcha
@@ -55,3 +37,22 @@ class CheckView(TemplateView):
         messages.error(
             request, '* Bạn chưa được kiểm tra không phải là robot!')
         return redirect('/')
+
+    def get_context_data(self, **kwargs):
+        context = super(CheckView, self).get_context_data()
+        context.update({
+            'title': 'Phân tích & Đánh giá SEO cho website của bạn | Đánh Giá Web',
+            'description': 'Trang phân tích, đánh giá SEO cho website nhanh chóng, chính xác và miễn phí',
+            'pageRank': 0,
+            'favicon': 'https://checkseo.top/static/img/favicon.png',
+            'robotsMeta': 'index, follow, noodp, noydir',
+            'h1Tags': ['Phân tích & Đánh giá SEO'],
+            'h2Tags': ['Nhanh chóng, Chính xác, Miễn phí'],
+            'robotsTxt': 'https://checkseo.top/robots.txt',
+            'sitemaps': ['https://checkseo.top/sitemap.xml'],
+            'aBrokens': [],
+            'cssInlines': [],
+            'missAlts': [],
+            'url': 'https://checkseo.top/',
+        })
+        return context
