@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from .functions import parsing, reCaptcha
+from .functions import parsing, re_captcha
 
 
 class IndexView(TemplateView):
@@ -23,7 +23,7 @@ class CheckView(TemplateView):
     def post(self, request):
         url = request.POST['url']
         # reCaptcha
-        if reCaptcha(request.POST['g-recaptcha-response'], request.META['REMOTE_ADDR']):
+        if re_captcha(request.POST['g-recaptcha-response'], request.META['REMOTE_ADDR']):
             # Parsing
             context = parsing(url)
             if context:
