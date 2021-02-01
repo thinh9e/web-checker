@@ -1,9 +1,12 @@
 from django.urls import path
-from . import views
+
+from .views import (IndexView, ResultView)
+from .api import get_status
+
+app_name = 'checker'
 
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='index'),
-    path('gioi-thieu/', views.AboutView.as_view(), name='about'),
-    path('lien-he/', views.ContactView.as_view(), name='contact'),
-    path('kiem-tra/', views.CheckView.as_view(), name='check'),
+    path('', IndexView.as_view(), name='index'),
+    path('result', ResultView.as_view(), name='result'),
+    path('api/get-status', get_status, name='api-get-status'),
 ]
