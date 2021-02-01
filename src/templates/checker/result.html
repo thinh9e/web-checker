@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Kết quả phân tích{% endblock %}
+{% block description %}{% endblock %}
+
+{% block main %}
+  <div id="root">
+    <div id="loading"></div>
+  </div>
+  {% if url and url|length > 0 %}
+    {% csrf_token %}
+  {% endif %}
+  <script type="application/javascript">
+    $(document).ready(() => {
+      const url = `{{ url }}`;
+      if (url && url.length > 0) {
+        const csrfToken = document.querySelector("input[name=csrfmiddlewaretoken]").value;
+        $("#loading").html("Checking");
+        $.post({
+          url: `{% url 'checker:api-get-status' %}`,
+          headers: {"X-CSRFToken": csrfToken},
+          data: {"url": url},
+          dataType: "json",
+          success: (data) => {
+            console.log(data);
+            if (!data["error"]) {
+              $("#root").append(`Status OK`);
+            } else {
+              $("#root").append(`Error: ${data["error"]}`);
+            }
+          }
+        })
+          .fail(() => {
+            $("#root").append("Error: Bad request");
+          })
+          .always(() => {
+            $("#loading").html("Finish");
+          })
+      } else {
+        $("#root").append("No data");
+      }
+    })
+  </script>
+{% endblock %}

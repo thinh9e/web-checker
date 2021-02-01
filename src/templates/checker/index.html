@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Phân tích & Đánh giá website của bạn{% endblock %}
+{% block description %}Trang phân tích, đánh giá SEO cho website nhanh chóng, chính xác và miễn phí{% endblock %}
+
+{% block main %}
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        {{ message }}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  <form action="{% url 'checker:result' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Check</button>
+  </form>
+{% endblock %}
