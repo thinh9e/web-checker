@@ -7,7 +7,7 @@ REQUEST_TIMEOUT = 10  # (s)
 def get_status(request):
     """
     Method: POST
-    Return: JSON{data{url, status, elapsed, encoding, content}, error}
+    Return: JSON{data{url, status, time}, error}
     """
     url = request.POST.get('url', False)
     data = dict()
@@ -16,7 +16,7 @@ def get_status(request):
         try:
             resp = requests.get(url, timeout=REQUEST_TIMEOUT)
             data['status'] = resp.status_code
-            data['elapsed'] = resp.elapsed.total_seconds()
+            data['time'] = resp.elapsed.total_seconds()
             if data['status'] == 200:
                 return JsonResponse({'data': data, 'error': None})
             else:
