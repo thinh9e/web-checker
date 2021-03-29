@@ -14,7 +14,8 @@
       const secret_data = {
         "token": `{{ csrf_token }}`,
         "api": {
-          "get-status": `{% url 'checker:api-get-status' %}`
+          "get-status": `{% url 'checker:api-get-status' %}`,
+          "parse-content": `{% url 'checker:api-parse-content' %}`
         }
       }
       Object.assign(data, secret_data);
