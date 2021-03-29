@@ -1,6 +1,8 @@
 __pycache__/
 .idea/
+htmlcov/
 venv/
 
+.coverage
 settings/prod.py
 db.sqlite3
