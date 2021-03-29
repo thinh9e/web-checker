@@ -1,10 +1,11 @@
+from urllib.parse import parse_qsl, urlsplit
+
 from django.core.validators import URLValidator, ValidationError
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import TemplateView
 
-from urllib.parse import parse_qsl
 from .forms import SiteForm
 
 
@@ -42,17 +43,39 @@ class ResultView(TemplateView):
         form = SiteForm(request.POST)
         if form.is_valid():
             url = form.cleaned_data['url']
-            if not url.startswith(('http://', 'https://')):
-                # use HTTPS as the default
-                url_clone = url
-                url = f'https://{url}'
+            schemes = ('http', 'https')
             try:
-                URLValidator().__call__(url)
+                url = self.validate_url(url, schemes)
             except ValidationError:
-                messages.info(request, f'url={url_clone}')
+                messages.info(request, f'url={url}')
                 messages.error(request, 'URL validator error')
                 return redirect(reverse('checker:index'))
 
         context = self.get_context_data()
         context['url'] = url
         return render(request, self.template_name, context)
+
+    @staticmethod
+    def validate_url(url: str, schemes) -> str:
+        """
+        Raise: ValidationError
+        """
+        url_parse = urlsplit(url)
+        url_scheme = url_parse.scheme
+        if url_scheme == '':
+            # use HTTPS as the default
+            url = f'https://{url}'
+        elif url_scheme not in schemes:
+            raise ValidationError(URLValidator.message, URLValidator.code)
+
+        # re-parse url
+        url_parse = urlsplit(url)
+        url_netloc = url_parse.netloc
+        # except for email and phone URL
+        exception_chars = '@:'
+        for char in exception_chars:
+            if char in url_netloc:
+                raise ValidationError(URLValidator.message, URLValidator.code)
+
+        URLValidator(schemes=schemes)(url)
+        return url
