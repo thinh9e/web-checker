@@ -71,8 +71,8 @@ class ResultView(TemplateView):
         # re-parse url
         url_parse = urlsplit(url)
         url_netloc = url_parse.netloc
-        # except for email and phone URL
-        exception_chars = '@:'
+        # except for email
+        exception_chars = {'@'}
         for char in exception_chars:
             if char in url_netloc:
                 raise ValidationError(URLValidator.message, URLValidator.code)

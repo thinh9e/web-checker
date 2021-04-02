@@ -45,7 +45,7 @@ class ResultViewTest(TestCase):
 
     def test_post_valid_data(self):
         data = dict()
-        urls = ('example.com', 'http://example.com', 'https://example.com',
+        urls = ('localhost:8000', 'example.com', 'http://example.com', 'https://example.com',
                 'https://sub.example.com', 'https://example-a-z.com')
         for url in urls:
             data['url'] = url
