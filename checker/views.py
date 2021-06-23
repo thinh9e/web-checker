@@ -1,8 +1,8 @@
 from urllib.parse import parse_qsl, urlsplit
 
-from django.core.validators import URLValidator, ValidationError
 from django.conf import settings
 from django.contrib import messages
+from django.core.validators import URLValidator, ValidationError
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import TemplateView
 
@@ -56,9 +56,13 @@ class ResultView(TemplateView):
         return render(request, self.template_name, context)
 
     @staticmethod
-    def validate_url(url: str, schemes) -> str:
+    def validate_url(url: str, schemes: tuple) -> str:
         """
-        Raise: ValidationError
+        Check a string is a valid URL or raise a ValidationError
+
+        :param url: string need to check
+        :param schemes: list allow schemes
+        :return: a valid URL
         """
         url_parse = urlsplit(url)
         url_scheme = url_parse.scheme

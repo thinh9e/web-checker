@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import (IndexView, ResultView)
 from .api import get_status, parse_content
+from .views import (IndexView, ResultView)
 
 app_name = 'checker'
 

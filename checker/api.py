@@ -1,20 +1,19 @@
-from django.http import JsonResponse
 import requests
-
-REQUEST_TIMEOUT = 10  # (s)
+from django.http import JsonResponse
 
 
 def parse_content(request):
     """
     Method: POST
-    Params: url
-    Return: JSON{data{encoding, content, time}, error}
+
+    :param request: to get url
+    :return: JSON{data{encoding, content, time}, error}
     """
     url = request.POST.get('url', False)
     data = dict()
     if url and len(request.POST) == 1:
         try:
-            resp = requests.get(url, timeout=3 * REQUEST_TIMEOUT)
+            resp = requests.get(url, timeout=3 * 10)
             data['encoding'] = resp.encoding
             data['content'] = resp.content.decode(data['encoding'])
             data['time'] = resp.elapsed.total_seconds()
@@ -31,15 +30,16 @@ def parse_content(request):
 def get_status(request):
     """
     Method: POST
-    Params: url
-    Return: JSON{data{url, status, time}, error}
+
+    :param request: to get url
+    :return: JSON{data{url, status, time}, error}
     """
     url = request.POST.get('url', False)
     data = dict()
     if url and len(request.POST) == 1:
         data['url'] = url
         try:
-            resp = requests.get(url, timeout=REQUEST_TIMEOUT)
+            resp = requests.get(url, timeout=10)
             data['status'] = resp.status_code
             data['time'] = resp.elapsed.total_seconds()
             if data['status'] == 200:
