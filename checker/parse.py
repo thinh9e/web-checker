@@ -1,4 +1,4 @@
-import string
+import re
 from urllib.parse import urlparse
 
 import requests
@@ -166,8 +166,9 @@ class ParseContent:
             if isinstance(value, str):
                 # remove space
                 value = value.strip()
-                # remove a value that only contains punctuation characters
-                if len(value) > 0 and not all(char in string.punctuation for char in value):
+                # remove whitespace character and duplicate space inside a string (\t\n\x0B\f\r)
+                value = re.sub(r'\s+', ' ', value)
+                if len(value) > 0:
                     result.append(value)
         return result
 
