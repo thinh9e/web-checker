@@ -126,13 +126,33 @@ class ParseContent:
             resource = f'{self._base_url}/{resource.lstrip("/")}'
         return resource
 
-    def _get_xpath_value(self, xpath: str, element: str, is_list: bool = False):
+    def _get_link_hyperlinks(self, links: list) -> set:
+        """
+        Get full link and remove unavailable link
+
+        :param links: a list of links
+        :return: a set of links (only distinct)
+        """
+        results = set()
+        for link in links:
+            if link.startswith('//'):
+                # //domain.com/link -> https://domain.com/link
+                results.add(f'{self._parse_url.scheme}://{link.lstrip("/")}')
+            elif link.startswith('/') and len(link) > 1:
+                # /link -> https://domain.com/link
+                results.add(f'{self._base_url}/{link.lstrip("/")}')
+            elif link.startswith('http'):
+                # https://domain.com/link
+                results.add(link)
+        return results
+
+    def _get_xpath_value(self, xpath: str, help_text: str, is_list: bool = False):
         """
         Get a/list value from xpath string
 
         :param xpath: string xpath
-        :param element: element name, using for exception message
-        :param is_list: specify the return type
+        :param help_text: element name, using for exception message
+        :param is_list: determine the return type, default False
         :return: a/list result or None
         """
         self._check_available()
@@ -145,7 +165,7 @@ class ParseContent:
                 else:
                     value = result[0]
         except html.etree.XPathError as exp:
-            self._error = f'Get xpath {element} error: {exp}'
+            self._error = f'Get xpath {help_text} error: {exp}'
         return value
 
     @staticmethod
@@ -192,6 +212,7 @@ class ParseContent:
         xpath = '//meta[@name="robots"]/@content'
         return self._get_xpath_value(xpath, 'meta robot')
 
+    @property
     def heading_tags(self) -> dict:
         heading = dict()
         heading['h1'] = self._get_xpath_value('//h1', 'h1 tags', True)
@@ -204,3 +225,8 @@ class ParseContent:
             # val: list<HtmlElement>
             heading[key] = self._clean_list_values(val)
         return heading
+
+    @property
+    def hyperlinks(self) -> set:
+        xpath = '//a/@href'
+        return self._get_link_hyperlinks(self._get_xpath_value(xpath, 'hyperlinks', True))
