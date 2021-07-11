@@ -230,3 +230,12 @@ class ParseContent:
     def hyperlinks(self) -> set:
         xpath = '//a/@href'
         return self._get_link_hyperlinks(self._get_xpath_value(xpath, 'hyperlinks', True))
+
+    @property
+    def inline_css(self):
+        xpath = '//@style/..'
+        values = self._get_xpath_value(xpath, 'inline css', True)
+        for idx, val in enumerate(values):
+            element = html.tostring(val, encoding=self._data['encoding']).decode(self._data['encoding'])
+            values[idx] = re.search(r'<.*?>', element).group()
+        return values
