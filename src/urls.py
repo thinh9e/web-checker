@@ -7,15 +7,15 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('thu-thuat/', include('blogs.urls')),
-    path('robots.txt', views.Robots.as_view(), name='robots'),
-    path('sitemap.xml', views.Sitemap.as_view(), name='sitemap'),
-    path('', include('checker.urls')),
+    path("admin/", admin.site.urls),
+    path("thu-thuat/", include("blogs.urls")),
+    path("robots.txt", views.Robots.as_view(), name="robots"),
+    path("sitemap.xml", views.Sitemap.as_view(), name="sitemap"),
+    path("", include("checker.urls")),
 ]
 
 if settings.DEBUG:
-    urlpatterns += (static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 handler400 = views.bad_request
 handler403 = views.permission_denied
