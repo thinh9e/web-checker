@@ -1,8 +1,9 @@
-import re
-import requests
 import concurrent.futures
-from lxml import html
+import re
+
+import requests
 from django.conf import settings
+from lxml import html
 
 REQUEST_TIMEOUT = 30
 
@@ -17,13 +18,13 @@ def re_captcha(response, user_ip):
         print(response, user_ip)
         return True
     data = {
-        'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-        'response': response,
-        'remoteip': user_ip,
+        "secret": settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+        "response": response,
+        "remoteip": user_ip,
     }
-    verify = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+    verify = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data)
     result = verify.json()
-    return result['success']
+    return result["success"]
 
 
 def get_link_img(elm, url_domain):
@@ -32,8 +33,8 @@ def get_link_img(elm, url_domain):
     - Input: content.xpath(img), urlDomain
     - Output: link image
     """
-    if elm and elm[:2] not in {'ht', '//'}:
-        elm = url_domain + "/" + elm.lstrip('/')
+    if elm and elm[:2] not in {"ht", "//"}:
+        elm = url_domain + "/" + elm.lstrip("/")
     return elm
 
 
@@ -57,13 +58,13 @@ def getlink_robots(session, url_domain):
     - Output: link robots.txt or false
     """
     try:
-        value = session.get(url_domain + '/robots.txt', timeout=REQUEST_TIMEOUT)
+        value = session.get(url_domain + "/robots.txt", timeout=REQUEST_TIMEOUT)
     except (requests.exceptions.RequestException, Exception):
-        print('robots.txt not found!')
+        print("robots.txt not found!")
         return None
-    if value.status_code != 200 or 'plain' not in value.headers['Content-Type']:
+    if value.status_code != 200 or "plain" not in value.headers["Content-Type"]:
         return None
-    return url_domain + '/robots.txt'
+    return url_domain + "/robots.txt"
 
 
 def getlink_sitemap(session, url_domain, robots):
@@ -73,20 +74,20 @@ def getlink_sitemap(session, url_domain, robots):
     - Output: link sitemap.xml or false
     """
     try:
-        value = session.get(url_domain + '/sitemap.xml', timeout=REQUEST_TIMEOUT)
+        value = session.get(url_domain + "/sitemap.xml", timeout=REQUEST_TIMEOUT)
     except (requests.exceptions.RequestException, Exception):
-        print('sitemap.xml not found!')
+        print("sitemap.xml not found!")
         return None
     if robots:
-        txt = session.get(robots).content.decode('utf-8')
-        txt = txt.replace('\n', '')
-        sitemap = re.findall(r'Sitemap:.*xml', txt)
+        txt = session.get(robots).content.decode("utf-8")
+        txt = txt.replace("\n", "")
+        sitemap = re.findall(r"Sitemap:.*xml", txt)
         if sitemap:
-            sitemap = sitemap[0].split('Sitemap: ')[1:]
+            sitemap = sitemap[0].split("Sitemap: ")[1:]
             return sitemap
-    if value.status_code != 200 or 'xml' not in value.headers['Content-Type']:
+    if value.status_code != 200 or "xml" not in value.headers["Content-Type"]:
         return None
-    sitemap = [url_domain + '/sitemap.xml']
+    sitemap = [url_domain + "/sitemap.xml"]
     return sitemap
 
 
@@ -113,7 +114,9 @@ def get_broken_link(session, elms):
     """
     res = list()
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        futures = {executor.submit(check_broken_link, session, elm): elm for elm in elms}
+        futures = {
+            executor.submit(check_broken_link, session, elm): elm for elm in elms
+        }
         for future in concurrent.futures.as_completed(futures):
             if future.result():
                 res.append(future.result())
@@ -129,13 +132,13 @@ def getlink_a(elms, url_domain):
     idx = 0
     while idx < len(elms):
         elm = elms[idx]
-        if elm in ('#', '/') or elm.split(':')[0] in ('tel', 'mailto', 'javascript'):
+        if elm in ("#", "/") or elm.split(":")[0] in ("tel", "mailto", "javascript"):
             elms.pop(idx)
             idx -= 1
-        elif elm[:2] not in ('ht', '//'):
-            elms[idx] = url_domain + "/" + elm.lstrip('/')
-        elif elm[:2] == '//':
-            elms[idx] = 'https:' + elm
+        elif elm[:2] not in ("ht", "//"):
+            elms[idx] = url_domain + "/" + elm.lstrip("/")
+        elif elm[:2] == "//":
+            elms[idx] = "https:" + elm
         idx += 1
     return set(elms)
 
@@ -147,8 +150,8 @@ def get_css_inlines(elms):
     - Output: list tags have css inline
     """
     for idx, value in enumerate(elms):
-        tmp = html.tostring(value, encoding='utf-8').decode('utf-8')
-        elms[idx] = re.search(r'<.*?>', tmp).group()
+        tmp = html.tostring(value, encoding="utf-8").decode("utf-8")
+        elms[idx] = re.search(r"<.*?>", tmp).group()
     return elms
 
 
@@ -160,9 +163,9 @@ def check_miss_alts(elms):
     """
     res = list()
     for elm in elms:
-        tmp = html.tostring(elm, encoding='utf-8').decode('utf-8')
-        if not re.search(r'alt=[\'\"].+[\'\"]', tmp):
-            res.append(re.search(r'<img.*?>', tmp).group())
+        tmp = html.tostring(elm, encoding="utf-8").decode("utf-8")
+        if not re.search(r"alt=[\'\"].+[\'\"]", tmp):
+            res.append(re.search(r"<img.*?>", tmp).group())
     return res
 
 
@@ -174,13 +177,11 @@ def get_page_rank(domain):
     """
     if settings.DEBUG:
         return 0
-    url = 'https://openpagerank.com/api/v1.0/getPageRank?domains[0]=' + domain
-    headers = {
-        'API-OPR': settings.OPEN_PAGERANK_KEY
-    }
+    url = "https://openpagerank.com/api/v1.0/getPageRank?domains[0]=" + domain
+    headers = {"API-OPR": settings.OPEN_PAGERANK_KEY}
     data = requests.get(url, headers=headers, timeout=REQUEST_TIMEOUT)
-    result = data.json()['response'][0]
-    return result['rank']
+    result = data.json()["response"][0]
+    return result["rank"]
 
 
 def parsing(url):
@@ -192,27 +193,27 @@ def parsing(url):
     try:
         session = requests.Session()
         page = session.get(url, timeout=REQUEST_TIMEOUT)
-        content = html.fromstring(page.content.decode('utf-8'))
+        content = html.fromstring(page.content.decode("utf-8"))
     except (requests.exceptions.RequestException, Exception):
-        print('Cannot get url!')
+        print("Cannot get url!")
         return False
 
     value = dict()
-    domain = url.split('/')[2]
-    url_domain = url.split('/')[0] + '//' + domain
+    domain = url.split("/")[2]
+    url_domain = url.split("/")[0] + "//" + domain
 
     elm = {
-        'title': '//title/text()',
-        'description': '//meta[@name="description"]/@content',
-        'favicon': '//link[contains(@rel, "icon")]/@href',
-        'robotsMeta': '//meta[@name="robots"]/@content',
+        "title": "//title/text()",
+        "description": '//meta[@name="description"]/@content',
+        "favicon": '//link[contains(@rel, "icon")]/@href',
+        "robotsMeta": '//meta[@name="robots"]/@content',
     }
     elms = {
-        'h1Tags': '//h1//text()',
-        'h2Tags': '//h2//text()',
-        'aTags': '//a/@href',
-        'cssInlines': '//@style/..',
-        'imgTags': '//img',
+        "h1Tags": "//h1//text()",
+        "h2Tags": "//h2//text()",
+        "aTags": "//a/@href",
+        "cssInlines": "//@style/..",
+        "imgTags": "//img",
     }
 
     for k, v in elm.items():
@@ -220,26 +221,26 @@ def parsing(url):
             value[k] = content.xpath(v)[0]
         except (html.etree.XPathError, Exception):
             value[k] = None
-            print(k, 'not found!')
+            print(k, "not found!")
 
     for k, v in elms.items():
         try:
             value[k] = content.xpath(v)
         except (html.etree.XPathError, Exception):
             value[k] = None
-            print(k, 'not found!')
+            print(k, "not found!")
 
     try:
-        value['favicon'] = get_link_img(value['favicon'], url_domain)
-        value['h1Tags'] = clean_elms(value['h1Tags'])
-        value['h2Tags'] = clean_elms(value['h2Tags'])
-        value['robotsTxt'] = getlink_robots(session, url_domain)
-        value['sitemaps'] = getlink_sitemap(session, url_domain, value['robotsTxt'])
-        value['aTags'] = getlink_a(value['aTags'], url_domain)
-        value['aBrokens'] = get_broken_link(session, value['aTags'])
-        value['cssInlines'] = get_css_inlines(value['cssInlines'])
-        value['missAlts'] = check_miss_alts(value['imgTags'])
-        value['pageRank'] = get_page_rank(domain)
+        value["favicon"] = get_link_img(value["favicon"], url_domain)
+        value["h1Tags"] = clean_elms(value["h1Tags"])
+        value["h2Tags"] = clean_elms(value["h2Tags"])
+        value["robotsTxt"] = getlink_robots(session, url_domain)
+        value["sitemaps"] = getlink_sitemap(session, url_domain, value["robotsTxt"])
+        value["aTags"] = getlink_a(value["aTags"], url_domain)
+        value["aBrokens"] = get_broken_link(session, value["aTags"])
+        value["cssInlines"] = get_css_inlines(value["cssInlines"])
+        value["missAlts"] = check_miss_alts(value["imgTags"])
+        value["pageRank"] = get_page_rank(domain)
     finally:
         session.close()
 
