@@ -1,2 +1,3 @@
-# check-seo
-&copy; Nguyen Phuoc Thinh
+# Web Checker
+
+The web application that checks a website's SEO score.

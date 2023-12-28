@@ -1,20 +1,20 @@
 [tool.poetry]
 name = "web-checker"
 version = "1.0.0"
-description = ""
+description = "The web application that checks a website's SEO score."
 authors = ["Thinh Nguyen Phuoc <npthinh1996@gmail.com>"]
 license = "GPL-3.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-django = "^4.2"
+django = "^5.0"
 lxml = "^4.5"
 requests = "^2.24"
 
 
 [tool.poetry.group.deploy.dependencies]
-uvicorn = "^0.24"
+uvicorn = "^0.25"
 
 
 [tool.poetry.group.dev.dependencies]
