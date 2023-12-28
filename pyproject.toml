@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "web-checker"
 version = "1.0.0"
-description = ""
+description = "The web application that checks a website's SEO score."
 authors = ["Thinh Nguyen Phuoc <npthinh1996@gmail.com>"]
 license = "GPL-3.0"
 readme = "README.md"
