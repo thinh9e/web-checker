@@ -6,4 +6,5 @@ venv/
 
 *.iml
 *.sqlite3
+configs.ini
 poetry.lock

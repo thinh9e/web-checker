@@ -10,22 +10,29 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from configparser import ConfigParser
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+# Load local configurations
+cfg_parser = ConfigParser(interpolation=None)
+cfg_parser.read(BASE_DIR / "configs.ini")
+configs = cfg_parser["DEFAULT"]
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ju%gq^*e_qsppj&=ael5y_-sypz8_+5h*e^2&1$_+$2)wy9%(3"
+SECRET_KEY = configs.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = configs.getboolean("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = configs.get("ALLOWED_HOSTS").split("|")
 
 
 # Application definition
@@ -134,10 +141,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Google reCAPTCHA secret key
 # https://developers.google.com/recaptcha/docs/verify/
 
-GOOGLE_RECAPTCHA_SECRET_KEY = ""
+GOOGLE_RECAPTCHA_SECRET_KEY = configs.get("GOOGLE_RECAPTCHA_SECRET_KEY")
 
 
 # Open PageRank key
 # https://www.domcop.com/openpagerank/
 
-OPEN_PAGERANK_KEY = ""
+OPEN_PAGERANK_KEY = configs.get("OPEN_PAGERANK_KEY")
