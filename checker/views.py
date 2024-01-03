@@ -1,3 +1,4 @@
+from asgiref.sync import async_to_sync
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
@@ -24,7 +25,7 @@ class CheckView(TemplateView):
     def post(self, request):
         url = request.POST["url"]
         # reCaptcha
-        if re_captcha(
+        if async_to_sync(re_captcha)(
             request.POST["g-recaptcha-response"], request.META["REMOTE_ADDR"]
         ):
             # Parsing

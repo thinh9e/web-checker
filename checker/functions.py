@@ -1,6 +1,7 @@
 import concurrent.futures
 import re
 
+import httpx
 import requests
 from django.conf import settings
 from lxml import html
@@ -8,23 +9,33 @@ from lxml import html
 REQUEST_TIMEOUT = 30
 
 
-def re_captcha(response, user_ip):
+async def re_captcha(response: str, user_ip: str) -> bool:
     """
     Check reCaptcha
-    - Input: POST['g-recaptcha-response'], META['HTTP_X_FORWARDED_FOR']
-    - Output: True if pass
+
+    :param response: g-recaptcha-response
+    :param user_ip: IP address
+    :return: True if pass
     """
     if settings.DEBUG:
-        print(response, user_ip)
         return True
+
+    url = "https://www.google.com/recaptcha/api/siteverify"
     data = {
         "secret": settings.GOOGLE_RECAPTCHA_SECRET_KEY,
         "response": response,
         "remoteip": user_ip,
     }
-    verify = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data)
-    result = verify.json()
-    return result["success"]
+
+    try:
+        async with httpx.AsyncClient() as client:
+            r = await client.post(url=url, data=data)
+            r.raise_for_status()
+    except httpx.HTTPError as exp:
+        print("Error re_captcha():", exp)
+        return False
+
+    return r.json().get("success", False)
 
 
 def get_link_img(elm, url_domain):
