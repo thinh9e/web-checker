@@ -19,7 +19,7 @@ uvicorn = "^0.25"
 
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.12"
+black = "^24.1"
 
 [build-system]
 requires = ["poetry-core"]
