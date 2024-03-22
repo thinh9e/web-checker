@@ -14,7 +14,7 @@ requests = "^2.24"
 
 
 [tool.poetry.group.deploy.dependencies]
-uvicorn = "^0.28"
+uvicorn = "^0.29"
 
 
 [tool.poetry.group.dev.dependencies]
