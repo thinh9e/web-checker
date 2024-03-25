@@ -131,13 +131,13 @@ class Parser:
 
         results: list[tuple[int, Optional[list[str]]]] = []
         with ThreadPoolExecutor(max_workers=self.HEADING_LEVEL) as executor:
-            tasks = list()
+            futures = list()
             for level in range(self.HEADING_LEVEL):
                 headings = self._xpath(xpath_template.format(level + 1), multiple=True)
-                tasks.append(executor.submit(self._clean_headings, level, headings))
+                futures.append(executor.submit(self._clean_headings, level, headings))
 
-            results.extend([future.result() for future in as_completed(tasks)])
-            for future in as_completed(tasks):
+            results.extend([future.result() for future in as_completed(futures)])
+            for future in as_completed(futures):
                 try:
                     results.append(future.result())
                 except TimeoutError as e:
