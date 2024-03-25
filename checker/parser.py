@@ -141,7 +141,7 @@ class Parser:
                 try:
                     results.append(future.result())
                 except TimeoutError as e:
-                    print(e)
+                    print(f"TimeoutError: {e}")
 
         if not results:
             return None
