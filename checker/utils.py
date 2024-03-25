@@ -1,4 +1,5 @@
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from json import JSONDecodeError
 from typing import Optional
 
@@ -8,6 +9,7 @@ from requests import Session
 from requests.exceptions import HTTPError
 
 ENCODING = "utf-8"
+MAX_WORKERS = 5
 REQUEST_TIMEOUT = 30
 
 
@@ -43,8 +45,8 @@ def get_robots_link(client: Session, base_url: str) -> Optional[str]:
     """
     Retrieves the URL of the robots.txt file for a given base URL using the provided HTTP client.
 
-    :param client: The HTTP client session to use for making the request.
-    :param base_url: The base URL for which to retrieve the robots.txt file.
+    :param client: The session client to make HTTP requests.
+    :param base_url: The base URL to construct the robots.txt file.
     :return: The URL of the robots.txt file if it exists and can be accessed, None otherwise.
     """
     robots_url = base_url + "/robots.txt"
@@ -57,11 +59,11 @@ def get_robots_link(client: Session, base_url: str) -> Optional[str]:
         return None
 
 
-def get_sitemap_link(
+def get_sitemap_links(
     client: Session, base_url: str, robots_url: str
 ) -> Optional[list[str]]:
     """
-    Get sitemap link from the provided base URL and robots URL.
+    Get sitemap links from the provided base URL and robots URL.
 
     :param client: The session client to make HTTP requests.
     :param base_url: The base URL to construct the sitemap URL.
@@ -93,3 +95,38 @@ def get_sitemap_link(
         return None
 
     return [sitemap.split("Sitemap:")[1].strip() for sitemap in sitemaps]
+
+
+def check_broken_link(client: Session, link: str) -> Optional[str]:
+    """
+    Check if a given link is broken by sending a HEAD request to the link using the provided session.
+
+    :param client: The session client to make HTTP requests.
+    :param link: The link to be checked.
+    :return: If the link is broken, returns the link itself. Otherwise, returns None.
+    """
+    try:
+        r = client.head(link)
+        r.raise_for_status()
+        return None
+    except HTTPError:
+        return link
+
+
+def get_broken_links(client: Session, links: list[str]) -> Optional[list[str]]:
+    """
+    Retrieves a list of broken links from a given list of links using a thread pool executor.
+
+    :param client: The session client to make HTTP requests.
+    :param links: A list of links to check for broken links.
+    :return: A list of broken links, or None if no broken links are found.
+    """
+    broken_links: list[str] = list()
+
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        futures = [executor.submit(check_broken_link, client, link) for link in links]
+        for future in as_completed(futures):
+            if future.result():
+                broken_links.append(future.result())
+
+    return broken_links if broken_links else None
