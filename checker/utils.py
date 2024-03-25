@@ -1,3 +1,4 @@
+import re
 from json import JSONDecodeError
 from typing import Optional
 
@@ -6,6 +7,7 @@ from django.conf import settings
 from requests import Session
 from requests.exceptions import HTTPError
 
+ENCODING = "utf-8"
 REQUEST_TIMEOUT = 30
 
 
@@ -53,3 +55,41 @@ def get_robots_link(client: Session, base_url: str) -> Optional[str]:
     except HTTPError as e:
         print(f"Failed to get robots.txt: {e}")
         return None
+
+
+def get_sitemap_link(
+    client: Session, base_url: str, robots_url: str
+) -> Optional[list[str]]:
+    """
+    Get sitemap link from the provided base URL and robots URL.
+
+    :param client: The session client to make HTTP requests.
+    :param base_url: The base URL to construct the sitemap URL.
+    :param robots_url: The URL to fetch robots.txt content.
+    :return: A list of sitemap URLs if successful, None otherwise.
+    """
+    sitemap_url = base_url + "/sitemap.xml"
+    try:
+        r = client.head(sitemap_url)
+        r.raise_for_status()
+        return [sitemap_url]
+    except HTTPError as e:
+        print(f"Failed to get sitemap.xml: {e}")
+
+    # Get sitemap from robots.txt content
+    if not robots_url:
+        return None
+
+    sitemaps: list[str] = list()
+    try:
+        r = client.get(robots_url)
+        r.raise_for_status()
+        sitemaps.extend(re.findall(r"Sitemap:.*xml", r.text))
+    except HTTPError as e:
+        print(f"Failed to get robots.txt content: {e}")
+        return None
+
+    if not sitemaps:
+        return None
+
+    return [sitemap.split("Sitemap:")[1].strip() for sitemap in sitemaps]
