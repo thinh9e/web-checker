@@ -1,29 +1,28 @@
-[tool.poetry]
+[project]
 name = "web-checker"
 version = "1.0.0"
 description = "The web application that checks a website's SEO score."
-authors = ["Thinh Nguyen Phuoc <npthinh1996@gmail.com>"]
-license = "GPL-3.0"
+authors = [
+    { name = "Thinh Nguyen Phuoc", email = "npthinh1996@gmail.com" }
+]
+license = { text = "GPL-3.0" }
 readme = "README.md"
+requires-python = "^3.10"
+dependencies = [
+    "Django (>=5.1,<5.2)",
+    "lxml (>=5.3,<5.4)",
+    "requests (>=2.32,<2.33)"
+]
+
+[tool.poetry]
 package-mode = false
 
-[tool.poetry.dependencies]
-python = "^3.10"
-django = "~5.0"
-lxml = "~5.2"
-requests = "~2.32"
-
+[tool.poetry.group.dev.dependencies]
+black = "~24.10"
+coverage = "~7.6"
 
 [tool.poetry.group.deploy.dependencies]
-uvicorn = "~0.30"
-
-
-[tool.poetry.group.dev.dependencies]
-black = "~24.4"
-
-
-[tool.poetry.group.test.dependencies]
-coverage = "~7.5"
+uvicorn = "~0.34"
 
 [tool.black]
 line-length = 120
@@ -32,11 +31,11 @@ target-version = ["py312"]
 [tool.coverage.run]
 branch = true
 omit = [
-  "*/migrations/*",
-  "src/*",
-  "*/__init__.py",
-  "*/tests.py",
-  "manage.py",
+    "*/migrations/*",
+    "src/*",
+    "*/__init__.py",
+    "*/tests.py",
+    "manage.py",
 ]
 source = ["."]
 
@@ -45,5 +44,5 @@ skip_covered = false
 skip_empty = true
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
