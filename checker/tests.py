@@ -136,8 +136,8 @@ class UtilsTestCase(TestCase):
         self.assertTrue(verify_captcha("response", "127.0.0.1"))
 
     @patch("checker.utils.requests")
-    def test_verify_captcha_with_http_error(self, mock_requests) -> None:
-        mock_requests.post.side_effect = HTTPError()
+    def test_verify_captcha_with_request_error(self, mock_requests) -> None:
+        mock_requests.post.side_effect = RequestException()
         self.assertFalse(verify_captcha("response", "127.0.0.1"))
 
     @patch("checker.utils.requests")
@@ -156,9 +156,9 @@ class UtilsTestCase(TestCase):
     def test_get_robots_link(self, mock_requests) -> None:
         self.assertEqual(get_robots_link(mock_requests, self.base_url), f"{self.base_url}/robots.txt")
 
-    def test_get_robots_link_with_http_error(self) -> None:
+    def test_get_robots_link_with_request_error(self) -> None:
         mock_response = MagicMock()
-        mock_response.raise_for_status.side_effect = HTTPError()
+        mock_response.raise_for_status.side_effect = RequestException()
 
         mock_session = MagicMock()
         mock_session.head.return_value = mock_response
@@ -168,9 +168,9 @@ class UtilsTestCase(TestCase):
     def test_get_sitemap_link(self, mock_requests) -> None:
         self.assertListEqual(get_sitemap_links(mock_requests, self.base_url, None), [f"{self.base_url}/sitemap.xml"])
 
-    def test_get_sitemap_link_with_http_error(self) -> None:
+    def test_get_sitemap_link_with_request_error(self) -> None:
         mock_response = MagicMock()
-        mock_response.raise_for_status.side_effect = HTTPError()
+        mock_response.raise_for_status.side_effect = RequestException()
 
         mock_session = MagicMock()
         mock_session.head.return_value = mock_response
@@ -178,7 +178,7 @@ class UtilsTestCase(TestCase):
 
     def test_get_sitemap_link_from_robots_url(self) -> None:
         mock_head_response = MagicMock()
-        mock_head_response.raise_for_status.side_effect = HTTPError()
+        mock_head_response.raise_for_status.side_effect = RequestException()
 
         mock_session = MagicMock()
         mock_session.head.return_value = mock_head_response
@@ -193,7 +193,7 @@ class UtilsTestCase(TestCase):
 
     def test_get_sitemap_link_from_robots_url_with_empty_sitemap(self) -> None:
         mock_head_response = MagicMock()
-        mock_head_response.raise_for_status.side_effect = HTTPError()
+        mock_head_response.raise_for_status.side_effect = RequestException()
 
         mock_session = MagicMock()
         mock_session.head.return_value = mock_head_response
@@ -203,15 +203,15 @@ class UtilsTestCase(TestCase):
         mock_session.get.return_value = mock_get_response
         self.assertIsNone(get_sitemap_links(mock_session, self.base_url, f"{self.base_url}/robots.txt"))
 
-    def test_get_sitemap_link_from_robots_url_with_http_error(self) -> None:
+    def test_get_sitemap_link_from_robots_url_with_request_error(self) -> None:
         mock_head_response = MagicMock()
-        mock_head_response.raise_for_status.side_effect = HTTPError()
+        mock_head_response.raise_for_status.side_effect = RequestException()
 
         mock_session = MagicMock()
         mock_session.head.return_value = mock_head_response
 
         mock_get_response = MagicMock()
-        mock_get_response.raise_for_status.side_effect = HTTPError()
+        mock_get_response.raise_for_status.side_effect = RequestException()
         mock_session.get.return_value = mock_get_response
         self.assertIsNone(get_sitemap_links(mock_session, self.base_url, f"{self.base_url}/robots.txt"))
 
@@ -261,9 +261,9 @@ class UtilsTestCase(TestCase):
         mock_session.get.return_value = mock_response
         self.assertEqual(get_page_rank(mock_session, self.base_url), 1)
 
-    def test_get_page_rank_with_http_error(self) -> None:
+    def test_get_page_rank_with_request_error(self) -> None:
         mock_response = MagicMock()
-        mock_response.raise_for_status.side_effect = HTTPError()
+        mock_response.raise_for_status.side_effect = RequestException()
 
         mock_session = MagicMock()
         mock_session.get.return_value = mock_response

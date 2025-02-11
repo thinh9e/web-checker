@@ -35,7 +35,7 @@ def verify_captcha(response: str, user_ip: str) -> bool:
         r = requests.post(url=url, data=data)
         result: dict = r.json()
         return result["success"]
-    except (HTTPError, JSONDecodeError) as e:
+    except (RequestException, JSONDecodeError) as e:
         print(f"Failed to verify reCAPTCHA: {e}")
         return False
 
@@ -53,7 +53,7 @@ def get_robots_link(client: Session, base_url: str) -> Optional[str]:
         r = client.head(robots_url)
         r.raise_for_status()
         return robots_url
-    except HTTPError as e:
+    except RequestException as e:
         print(f"Failed to get robots.txt: {e}")
         return None
 
@@ -72,7 +72,7 @@ def get_sitemap_links(client: Session, base_url: str, robots_url: Optional[str])
         r = client.head(sitemap_url)
         r.raise_for_status()
         return [sitemap_url]
-    except HTTPError as e:
+    except RequestException as e:
         print(f"Failed to get sitemap.xml: {e}")
 
     # Get sitemap from robots.txt content
@@ -84,7 +84,7 @@ def get_sitemap_links(client: Session, base_url: str, robots_url: Optional[str])
         r = client.get(robots_url)
         r.raise_for_status()
         sitemaps.extend(re.findall(r"Sitemap:.*xml", r.text))
-    except HTTPError as e:
+    except RequestException as e:
         print(f"Failed to get robots.txt content: {e}")
         return None
 
@@ -153,7 +153,7 @@ def get_page_rank(client: Session, domain: str) -> int:
         result: dict = r.json()["response"][0]
         if result["status_code"] == 200:
             return int(result["rank"])
-    except (HTTPError, JSONDecodeError) as e:
+    except (RequestException, JSONDecodeError) as e:
         print(f"Failed to get page rank: {e}")
 
     return 0

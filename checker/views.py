@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from requests import Session
-from requests.exceptions import HTTPError
+from requests.exceptions import RequestException
 
 from checker.parser import Parser
 from checker.utils import (
@@ -65,7 +65,7 @@ class CheckView(TemplateView):
             }
             context["sitemaps"] = get_sitemap_links(client, base_url, context["robotsTxt"])
             return render(request, self.template_name, context)
-        except HTTPError as e:
+        except RequestException as e:
             print(f"Failed to get URL: {e}")
             messages.info(request, url)
             messages.error(request, "* Không phân tích được URL. Vui lòng kiểm tra lại!")
