@@ -1,8 +1,10 @@
 __pycache__/
 .idea/
-htmlcov/
-venv/
+.venv/
+static_root/
 
-.coverage
-settings/prod.py
-db.sqlite3
+*.coverage
+*.iml
+*.sqlite3
+.python-version
+configs.ini

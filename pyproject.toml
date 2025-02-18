@@ -1,0 +1,40 @@
+[project]
+name = "web-checker"
+version = "1.0.0"
+description = "The web application that checks a website's SEO score."
+authors = [
+    { name = "Thinh Nguyen Phuoc", email = "npthinh1996@gmail.com" }
+]
+license = "GPL-3.0"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "django~=5.1",
+    "lxml~=5.3",
+    "requests~=2.32",
+]
+
+[dependency-groups]
+dev = [
+    "black~=25.1",
+    "coverage~=7.6",
+]
+
+[tool.black]
+line-length = 120
+target-version = ["py312"]
+
+[tool.coverage.run]
+branch = true
+omit = [
+    "*/migrations/*",
+    "src/*",
+    "*/__init__.py",
+    "*/tests.py",
+    "manage.py",
+]
+source = ["."]
+
+[tool.coverage.report]
+skip_covered = false
+skip_empty = true
